@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020617;
+  --foreground: #f1f5f9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.command-bg {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(14, 116, 144, 0.22), transparent 36%),
+    radial-gradient(circle at 82% 4%, rgba(34, 197, 94, 0.12), transparent 34%),
+    linear-gradient(180deg, #020617 0%, #020617 52%, #020817 100%);
+  background-size: 130% 130%;
+  animation: bg-drift 18s ease-in-out infinite alternate;
+}
+
+.command-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@keyframes bg-drift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 12% 8%;
+  }
+}
+
+.page-fade-in {
+  animation: page-fade 300ms ease-out;
+}
+
+@keyframes page-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes intel-panel-in {
+  0% {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.intel-panel-enter {
+  animation: intel-panel-in 220ms ease-out;
+}
+
+@keyframes vector-orbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vector-scan {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: translateY(-14px);
+  }
+  50% {
+    opacity: 0.52;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes telemetry-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes telemetry-rise {
+  0% {
+    transform: scaleY(0.35);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.vector-orbit {
+  transform-origin: 120px 60px;
+  animation: vector-orbit 9s linear infinite;
+}
+
+.vector-scan {
+  animation: vector-scan 2.8s ease-in-out infinite;
+}
+
+.telemetry-pulse {
+  animation: telemetry-pulse 1.8s ease-in-out infinite;
+}
+
+.telemetry-bar {
+  transform-origin: bottom;
+  animation: telemetry-rise 650ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .command-bg {
+    animation: none;
+  }
+
+  .page-fade-in {
+    animation: none;
+  }
+
+  .intel-panel-enter {
+    animation: none;
+  }
+
+  .vector-orbit,
+  .vector-scan,
+  .telemetry-pulse,
+  .telemetry-bar {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+
+  .command-bg::before {
+    opacity: 0.04;
+    background-size: 64px 64px;
+  }
+}
