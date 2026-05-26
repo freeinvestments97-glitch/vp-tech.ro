@@ -181,24 +181,32 @@ function ServiceBriefingPanel({ service, isRo, onClose, desktop = false }: Servi
 export default function ServiceExplorer({ services, locale }: ServiceExplorerProps) {
   const isRo = locale === "ro";
   const [query, setQuery] = useState("");
-  const [activeUnit, setActiveUnit] = useState(isRo ? "Toate" : "All");
+  const [activeUnit, setActiveUnit] = useState(isRo ? "Toate" : "All"); // kept in sync by useEffect below
   const [activeServiceSlug, setActiveServiceSlug] = useState<string | null>(null);
   const [desktopDrawerMode, setDesktopDrawerMode] = useState(false);
 
+  const allLabel = isRo ? "Toate" : "All";
+
+  // Reset the active unit filter whenever the locale changes so the "show all"
+  // sentinel ("All" vs "Toate") stays in sync with the current language.
+  useEffect(() => {
+    setActiveUnit(allLabel);
+  }, [allLabel]);
+
   const units = useMemo(
-    () => [isRo ? "Toate" : "All", ...new Set(services.map((service) => service.unit))],
-    [isRo, services],
+    () => [allLabel, ...new Set(services.map((service) => service.unit))],
+    [allLabel, services],
   );
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
     return services.filter((service) => {
-      const unitMatch = activeUnit === (isRo ? "Toate" : "All") || service.unit === activeUnit;
+      const unitMatch = activeUnit === allLabel || service.unit === activeUnit;
       const text = `${service.title} ${service.description} ${service.scope}`.toLowerCase();
       const queryMatch = q.length === 0 || text.includes(q);
       return unitMatch && queryMatch;
     });
-  }, [activeUnit, isRo, query, services]);
+  }, [activeUnit, allLabel, query, services]);
 
   const activeService = useMemo(
     () => services.find((service) => service.slug === activeServiceSlug) ?? null,
