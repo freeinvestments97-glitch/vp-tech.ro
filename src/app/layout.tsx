@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
-import LanguageSwitcher from "@/components/language-switcher";
 import PageTransition from "@/components/page-transition";
 import SiteStatusBar from "@/components/site-status-bar";
 import { getLocale } from "@/lib/locale";
@@ -48,7 +47,7 @@ export default async function RootLayout({
           <PageTransition>{children}</PageTransition>
         </div>
         <footer className="border-t border-cyan-900/45 bg-slate-950/95 px-6 py-6 md:px-10 xl:px-14">
-          <div className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex w-full flex-col gap-5 md:flex-row md:items-start md:justify-between">
             <div className="flex flex-col gap-1">
               <p className="text-xs text-slate-300">
                 {isRo
@@ -60,7 +59,19 @@ export default async function RootLayout({
                   ? "CUI 51453103 | Nr. Reg. Com. J2025018400006 | EUID ROONRC.J2025018400006"
                   : "VAT/Tax ID 51453103 | Trade Register J2025018400006 | EUID ROONRC.J2025018400006"}
               </p>
-              <LanguageSwitcher locale={locale} />
+              <div className="mt-2">
+                <Link
+                  href={
+                    isRo
+                      ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
+                      : "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
+                  }
+                  target="_blank"
+                  className="inline-block rounded-md border border-slate-600/60 bg-slate-900/70 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-cyan-400/45 hover:text-cyan-100"
+                >
+                  {isRo ? "↓ Descarcă prezentarea PDF" : "↓ Download PDF Deck"}
+                </Link>
+              </div>
             </div>
             <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-cyan-300">
               <Link className="transition hover:text-cyan-200" href="/get-started">

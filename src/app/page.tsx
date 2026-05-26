@@ -54,17 +54,6 @@ export default async function Home() {
             >
               {isRo ? "Începe acum" : "Get Started"}
             </Link>
-            <Link
-              href={
-                isRo
-                  ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
-                  : "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
-              }
-              target="_blank"
-              className="rounded-md border border-slate-500/45 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-100 transition hover:border-cyan-400/45"
-            >
-              {isRo ? "Descarcă prezentarea PDF" : "Download PDF Deck"}
-            </Link>
           </nav>
         </header>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import LanguageSwitcher from "@/components/language-switcher";
 import type { Locale } from "@/lib/locale";
 
 type SiteStatusBarProps = {
@@ -42,14 +43,17 @@ export default function SiteStatusBar({ locale }: SiteStatusBarProps) {
   );
 
   return (
-    <div className="border-b border-cyan-900/45 bg-slate-950/95 px-6 py-2.5 text-sm text-slate-200 md:px-10 xl:px-14">
+    <div className="border-b border-cyan-900/45 bg-slate-950/95 px-6 py-2 text-sm text-slate-200 md:px-10 xl:px-14">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-medium text-cyan-200">
           {statusMessages[messageIndex]}
         </p>
-        <p className="text-xs text-slate-400">
-          {locale === "ro" ? "Actualizat" : "Updated"} {currentDate}
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="text-xs text-slate-400">
+            {locale === "ro" ? "Actualizat" : "Updated"} {currentDate}
+          </p>
+          <LanguageSwitcher locale={locale} />
+        </div>
       </div>
     </div>
   );
