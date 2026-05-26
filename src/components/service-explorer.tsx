@@ -316,7 +316,11 @@ export default function ServiceExplorer({ services, locale }: ServiceExplorerPro
           {filtered.map((service, index) => (
             <article
               key={service.title}
-              className={`group flex h-full flex-col rounded-xl border p-5 transition md:p-6 ${
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveServiceSlug(service.slug)}
+              onKeyDown={(e) => e.key === "Enter" && setActiveServiceSlug(service.slug)}
+              className={`group flex h-full cursor-pointer flex-col rounded-xl border p-5 transition md:p-6 ${
                 index % 3 === 0
                   ? "border-cyan-500/30 bg-cyan-950/15 hover:border-cyan-300/60"
                   : index % 3 === 1
@@ -343,14 +347,9 @@ export default function ServiceExplorer({ services, locale }: ServiceExplorerPro
               <p className="mt-3 text-base leading-7 text-slate-300">
                 {service.details[0]}
               </p>
-              <button
-                type="button"
-                onClick={() => setActiveServiceSlug(service.slug)}
-                className="mt-auto inline-block pt-5 text-left text-base font-semibold text-cyan-200 transition group-hover:text-white"
-              >
-                {isRo ? "Deschide briefing serviciu -" : "Open service briefing -"}
-                <span aria-hidden="true"> &gt;</span>
-              </button>
+              <p className="mt-auto pt-5 text-base font-semibold text-cyan-200 transition group-hover:text-white">
+                {isRo ? "Detalii" : "Details"} <span aria-hidden="true">&rsaquo;</span>
+              </p>
             </article>
           ))}
         </div>
