@@ -56,7 +56,7 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
   const [blink, setBlink] = useState(true);
   const [userFocus, setUserFocus] = useState(false);
   const [passFocus, setPassFocus] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
 
   // Boot sequence — pre-schedule every line as an independent timeout so
   // the full set can be cancelled on cleanup (fixes StrictMode double-invoke).
@@ -82,9 +82,10 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
     return () => clearInterval(t);
   }, []);
 
-  // Auto-scroll
+  // Scroll within the terminal box only — never moves the page
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = terminalBodyRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [log]);
 
   const handleAuth = () => {
@@ -156,7 +157,7 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
       </div>
 
       {/* Terminal output */}
-      <div className="h-72 overflow-y-auto px-5 pt-4 pb-2 space-y-[3px] scrollbar-thin">
+      <div ref={terminalBodyRef} className="h-72 overflow-y-auto px-5 pt-4 pb-2 space-y-[3px] scrollbar-thin">
         {log.map((line) => (
           <p key={line.id} className={`text-xs leading-relaxed ${lineColor(line.type)}`}>
             {prefix(line.type)}{line.text}
@@ -184,7 +185,6 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
           </p>
         )}
 
-        <div ref={bottomRef} />
       </div>
 
       {/* Input area */}
