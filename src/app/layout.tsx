@@ -59,19 +59,6 @@ export default async function RootLayout({
                   ? "CUI 51453103 | Nr. Reg. Com. J2025018400006 | EUID ROONRC.J2025018400006"
                   : "VAT/Tax ID 51453103 | Trade Register J2025018400006 | EUID ROONRC.J2025018400006"}
               </p>
-              <div className="mt-2">
-                <Link
-                  href={
-                    isRo
-                      ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
-                      : "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
-                  }
-                  target="_blank"
-                  className="inline-block rounded-md border border-slate-600/60 bg-slate-900/70 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:border-cyan-400/45 hover:text-cyan-100"
-                >
-                  {isRo ? "↓ Descarcă prezentarea PDF" : "↓ Download PDF Deck"}
-                </Link>
-              </div>
             </div>
             <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-cyan-300">
               <Link className="transition hover:text-cyan-200" href="/get-started">
@@ -91,6 +78,17 @@ export default async function RootLayout({
                 href="/terms-and-conditions"
               >
                 {isRo ? "Termeni și condiții" : "Terms and Conditions"}
+              </Link>
+              <Link
+                className="transition hover:text-cyan-200"
+                href={
+                  isRo
+                    ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
+                    : "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
+                }
+                target="_blank"
+              >
+                {isRo ? "Descarcă prezentarea PDF" : "Download PDF Deck"}
               </Link>
             </nav>
           </div>
