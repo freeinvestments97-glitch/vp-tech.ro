@@ -37,6 +37,12 @@ export default async function Home() {
               {isRo ? "Servicii" : "Services"}
             </Link>
             <Link
+              href="/clients"
+              className="rounded-md border border-slate-600/70 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-200 transition hover:border-cyan-500/35"
+            >
+              {isRo ? "Clienti" : "Clients"}
+            </Link>
+            <Link
               href="/contact"
               className="rounded-md border border-slate-600/70 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-200 transition hover:border-cyan-500/35"
             >
