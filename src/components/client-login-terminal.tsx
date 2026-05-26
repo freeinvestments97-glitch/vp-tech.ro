@@ -58,20 +58,21 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
   const [passFocus, setPassFocus] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Boot sequence
+  // Boot sequence — pre-schedule every line as an independent timeout so
+  // the full set can be cancelled on cleanup (fixes StrictMode double-invoke).
   useEffect(() => {
-    let i = 0;
-    const next = () => {
-      if (i >= boot.length) {
-        setBootDone(true);
-        return;
-      }
-      setLog((prev) => [...prev, newLine(boot[i].text, boot[i].type)]);
-      i++;
-      setTimeout(next, i === 1 ? 80 : 320 + Math.random() * 120);
-    };
-    const t = setTimeout(next, 400);
-    return () => clearTimeout(t);
+    const ids: ReturnType<typeof setTimeout>[] = [];
+    let elapsed = 400;
+    boot.forEach((item, index) => {
+      const id = setTimeout(() => {
+        setLog((prev) => [...prev, newLine(item.text, item.type)]);
+        if (index === boot.length - 1) setBootDone(true);
+      }, elapsed);
+      ids.push(id);
+      elapsed += index === 0 ? 120 : 340 + Math.floor(Math.random() * 100);
+    });
+    return () => ids.forEach(clearTimeout);
+  // boot is derived from module-level constants; safe to omit
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -271,14 +272,14 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
               setAuthing(false);
               setAuthDone(false);
               idCounter = 0;
-              let i = 0;
-              const next = () => {
-                if (i >= boot.length) { setBootDone(true); return; }
-                setLog((prev) => [...prev, newLine(boot[i].text, boot[i].type)]);
-                i++;
-                setTimeout(next, i === 1 ? 80 : 320 + Math.random() * 120);
-              };
-              setTimeout(next, 200);
+              let elapsed = 200;
+              boot.forEach((item, index) => {
+                setTimeout(() => {
+                  setLog((prev) => [...prev, newLine(item.text, item.type)]);
+                  if (index === boot.length - 1) setBootDone(true);
+                }, elapsed);
+                elapsed += index === 0 ? 120 : 340 + Math.floor(Math.random() * 100);
+              });
             }}
             className="mt-3 text-[11px] tracking-widest text-slate-500 transition hover:text-cyan-400"
           >
