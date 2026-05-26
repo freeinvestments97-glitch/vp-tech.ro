@@ -74,7 +74,7 @@ function ServiceBriefingPanel({ service, isRo, onClose, desktop = false }: Servi
           <p className="text-sm uppercase tracking-[0.14em] text-cyan-300/90">
             {service.unit}
           </p>
-          <h3 className="mt-1 text-2xl font-bold text-cyan-50 md:text-3xl">
+          <h3 className="mt-1 break-words text-2xl font-bold text-cyan-50 md:text-3xl">
             {service.title}
           </h3>
           <p className="mt-2 text-base leading-7 text-slate-200">
@@ -337,7 +337,7 @@ export default function ServiceExplorer({ services, locale }: ServiceExplorerPro
                   {service.unit}
                 </p>
               </div>
-              <h3 className="mt-2 text-xl font-semibold text-slate-100">
+              <h3 className="mt-2 break-words text-xl font-semibold text-slate-100">
                 {service.title}
               </h3>
               <p className="mt-3 text-base leading-7 text-slate-200">

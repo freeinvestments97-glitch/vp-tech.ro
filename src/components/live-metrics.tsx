@@ -49,7 +49,7 @@ export default function LiveMetrics({ locale }: LiveMetricsProps) {
   }, [metrics]);
 
   return (
-    <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
       {metrics.map((metric, index) => (
         <article
           key={metric.label}

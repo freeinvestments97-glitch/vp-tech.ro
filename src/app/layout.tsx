@@ -60,7 +60,7 @@ export default async function RootLayout({
                   : "VAT/Tax ID 51453103 | Trade Register J2025018400006 | EUID ROONRC.J2025018400006"}
               </p>
             </div>
-            <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-cyan-300">
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-cyan-300">
               <Link className="transition hover:text-cyan-200" href="/get-started">
                 {isRo ? "Începe" : "Get Started"}
               </Link>

@@ -23,7 +23,7 @@ export default async function Home() {
               TECHNOLOGIES
             </span>
           </div>
-          <nav className="flex flex-wrap gap-2 text-base">
+          <nav className="flex w-full flex-wrap gap-2 text-base md:w-auto">
             <Link
               href="/"
               className="rounded-md border border-cyan-500/35 bg-cyan-500/10 px-3 py-1.5 font-semibold text-cyan-200"

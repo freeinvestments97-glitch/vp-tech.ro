@@ -142,22 +142,22 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-cyan-500/25 bg-[#090e1a] shadow-2xl shadow-cyan-900/20"
+    <div className="overflow-hidden rounded-xl border border-cyan-400/40 bg-[#090e1a] shadow-2xl shadow-cyan-900/30 ring-1 ring-cyan-500/10"
       style={{ fontFamily: "var(--font-geist-mono)" }}>
 
       {/* Title bar */}
-      <div className="flex items-center gap-2 border-b border-slate-800/80 bg-slate-900/90 px-4 py-2.5">
-        <span className="h-3 w-3 rounded-full bg-red-500/70" />
-        <span className="h-3 w-3 rounded-full bg-amber-400/70" />
-        <span className="h-3 w-3 rounded-full bg-emerald-500/70" />
-        <p className="ml-3 flex-1 text-center text-[11px] tracking-[0.18em] text-slate-500">
-          {isRo ? "PORTAL CLIENT SECURIZAT — VP TECHNOLOGIES" : "SECURE CLIENT PORTAL — VP TECHNOLOGIES"}
+      <div className="flex items-center gap-2 border-b border-slate-700/80 bg-slate-900 px-4 py-3">
+        <span className="h-3 w-3 rounded-full bg-red-500/80" />
+        <span className="h-3 w-3 rounded-full bg-amber-400/80" />
+        <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+        <p className="ml-3 min-w-0 flex-1 truncate text-center text-[11px] font-semibold tracking-[0.18em] text-slate-300">
+          {isRo ? "PORTAL CLIENT — VP TECHNOLOGIES" : "CLIENT PORTAL — VP TECHNOLOGIES"}
         </p>
-        <span className="h-2 w-2 rounded-full bg-cyan-400 opacity-80 animate-pulse" />
+        <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
       </div>
 
       {/* Terminal output */}
-      <div ref={terminalBodyRef} className="h-72 overflow-y-auto px-5 pt-4 pb-2 space-y-[3px] scrollbar-thin">
+      <div ref={terminalBodyRef} className="h-64 overflow-y-auto px-5 pt-4 pb-2 space-y-[3px] scrollbar-thin">
         {log.map((line) => (
           <p key={line.id} className={`text-xs leading-relaxed ${lineColor(line.type)}`}>
             {prefix(line.type)}{line.text}
@@ -189,15 +189,14 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
 
       {/* Input area */}
       {bootDone && !authDone && (
-        <div className="border-t border-slate-800/80 bg-slate-950/60 px-5 py-4 space-y-3">
+        <div className="border-t border-slate-700/80 bg-slate-900/80 px-5 py-5 space-y-4">
           {/* Username row */}
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] tracking-widest text-cyan-500 w-[88px] shrink-0">
-              AUTH_USER
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-semibold tracking-[0.22em] text-cyan-500 uppercase">
+              {isRo ? "Utilizator" : "Username"}
             </span>
-            <span className="text-slate-600 text-xs">:</span>
-            <div className={`flex flex-1 items-center border-b pb-0.5 transition-colors ${userFocus ? "border-cyan-400" : "border-slate-700"}`}>
-              <span className="text-cyan-600 text-xs mr-1">›</span>
+            <div className={`flex items-center gap-2 rounded-md border px-3 py-2.5 transition-colors ${userFocus ? "border-cyan-400 bg-slate-800" : "border-slate-700 bg-slate-950"}`}>
+              <span className="text-cyan-600 text-sm select-none">$</span>
               <input
                 type="text"
                 value={username}
@@ -207,7 +206,7 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
                 onKeyDown={handleKeyDown}
                 placeholder={isRo ? "identificator_client" : "client_identifier"}
                 disabled={authing}
-                className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-slate-700 disabled:opacity-40"
+                className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600 disabled:opacity-40"
                 autoComplete="off"
                 spellCheck={false}
               />
@@ -215,13 +214,12 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
           </div>
 
           {/* Password row */}
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] tracking-widest text-cyan-500 w-[88px] shrink-0">
-              AUTH_PASS
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-semibold tracking-[0.22em] text-cyan-500 uppercase">
+              {isRo ? "Parola" : "Password"}
             </span>
-            <span className="text-slate-600 text-xs">:</span>
-            <div className={`flex flex-1 items-center border-b pb-0.5 transition-colors ${passFocus ? "border-cyan-400" : "border-slate-700"}`}>
-              <span className="text-cyan-600 text-xs mr-1">›</span>
+            <div className={`flex items-center gap-2 rounded-md border px-3 py-2.5 transition-colors ${passFocus ? "border-cyan-400 bg-slate-800" : "border-slate-700 bg-slate-950"}`}>
+              <span className="text-cyan-600 text-sm select-none">$</span>
               <input
                 type="password"
                 value={password}
@@ -231,22 +229,22 @@ export default function ClientLoginTerminal({ locale }: { locale: Locale }) {
                 onKeyDown={handleKeyDown}
                 placeholder="••••••••••••"
                 disabled={authing}
-                className="flex-1 bg-transparent text-xs text-white outline-none placeholder:text-slate-700 disabled:opacity-40"
+                className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-600 disabled:opacity-40"
                 autoComplete="current-password"
               />
             </div>
           </div>
 
           {/* Submit */}
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
             <p className="text-[10px] text-slate-600 tracking-wide">
-              {isRo ? "Apasă Enter sau executa comanda" : "Press Enter or run command"}
+              {isRo ? "Enter sau executa comanda" : "Enter or run command"}
             </p>
             <button
               type="button"
               onClick={handleAuth}
               disabled={authing}
-              className="rounded border border-cyan-500/50 bg-cyan-500/10 px-3 py-1 text-[11px] font-bold tracking-widest text-cyan-300 transition hover:bg-cyan-500/20 hover:text-cyan-100 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-md bg-cyan-500 px-5 py-2 text-xs font-black tracking-[0.18em] text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {authing ? "PROCESSING..." : "> AUTHENTICATE"}
             </button>

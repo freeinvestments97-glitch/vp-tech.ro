@@ -140,7 +140,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   }
                 />
               </label>
-              <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-3">
+              <div className="md:col-span-2 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                 <p className="text-xs text-slate-400">
                   {isRo
                     ? "Prin trimitere, ești de acord cu politicile legale din footer."

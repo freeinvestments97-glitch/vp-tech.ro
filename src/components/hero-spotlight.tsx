@@ -138,11 +138,11 @@ export default function HeroSpotlight({ locale }: HeroSpotlightProps) {
 
   return (
     <section className="rounded-2xl border border-cyan-500/30 bg-slate-950/85 p-6 shadow-2xl shadow-cyan-900/15 backdrop-blur md:p-10">
-      <div className="mb-4 inline-flex items-center rounded-full border border-cyan-400/35 bg-cyan-950/40 px-3 py-1 text-xs font-semibold text-cyan-300">
-        {activeItem.label}
+      <div className="mb-4 inline-flex max-w-full items-center rounded-full border border-cyan-400/35 bg-cyan-950/40 px-3 py-1 text-xs font-semibold text-cyan-300">
+        <span className="truncate">{activeItem.label}</span>
       </div>
 
-      <h1 className="max-w-5xl text-3xl font-bold tracking-tight text-cyan-50 md:text-5xl">
+      <h1 className="max-w-5xl text-2xl font-bold leading-tight tracking-tight text-cyan-50 md:text-5xl">
         {activeItem.title}
       </h1>
 
