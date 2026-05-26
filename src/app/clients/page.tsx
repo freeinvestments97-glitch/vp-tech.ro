@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getLocale } from "@/lib/locale";
-import ClientLoginTerminal from "@/components/client-login-terminal";
 
 const clients = [
   {
@@ -134,6 +133,13 @@ export default async function ClientsPage() {
             >
               {isRo ? "Începe acum" : "Get Started"}
             </Link>
+            <Link
+              href="/clients/login"
+              className="rounded-md border border-slate-500/50 bg-slate-900/80 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/50 hover:text-cyan-200"
+              style={{ fontFamily: "var(--font-geist-mono)" }}
+            >
+              {isRo ? "> Login client" : "> Client Login"}
+            </Link>
           </div>
         </section>
 
@@ -193,52 +199,6 @@ export default async function ClientsPage() {
               </article>
             );
           })}
-        </section>
-
-        {/* Client login */}
-        <section className="mt-5 grid gap-6 xl:grid-cols-[1fr_1.1fr] xl:items-start">
-          <div className="flex flex-col gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-300/90">
-                {isRo ? "Portal client" : "Client Portal"}
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-cyan-50 md:text-3xl">
-                {isRo ? "Acces securizat cont client" : "Secure Client Account Access"}
-              </h2>
-              <p className="mt-3 text-base leading-8 text-slate-300">
-                {isRo
-                  ? "Clientii activi pot accesa rapoarte de livrare, statusul proiectelor si documentatia tehnica printr-un portal securizat, dedicat contului lor."
-                  : "Active clients can access delivery reports, project status, and technical documentation through a secure portal dedicated to their account."}
-              </p>
-            </div>
-            <ul className="space-y-2 text-sm text-slate-400">
-              {(isRo
-                ? [
-                    "Rapoarte de livrare si statusul proiectelor",
-                    "Documentatie tehnica si runbook-uri",
-                    "Bilete de suport si istoric incidente",
-                    "Metrici SLA si tablouri de bord",
-                  ]
-                : [
-                    "Delivery reports and project status",
-                    "Technical documentation and runbooks",
-                    "Support tickets and incident history",
-                    "SLA metrics and dashboards",
-                  ]
-              ).map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <span className="mt-1 text-cyan-500" aria-hidden="true">›</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="text-xs text-slate-600">
-              {isRo
-                ? "Nu ai inca credentiale? Contacteaza managerul tau de cont."
-                : "No credentials yet? Contact your account manager."}
-            </p>
-          </div>
-          <ClientLoginTerminal locale={locale} />
         </section>
 
         {/* CTA */}
