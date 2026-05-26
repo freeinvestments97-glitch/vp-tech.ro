@@ -11,6 +11,12 @@ export default async function ServicesPage() {
   return (
     <div className="command-bg min-h-screen px-6 py-8 text-slate-100 md:px-10 md:py-10 xl:px-14">
       <main className="w-full">
+        <Link
+          href="/"
+          className="mb-6 inline-block text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
+        >
+          &larr; {isRo ? "Înapoi la Home" : "Back to Home"}
+        </Link>
         <header className="mb-7 rounded-2xl border border-cyan-500/30 bg-slate-950/85 p-6 shadow-xl shadow-cyan-900/20 md:p-8">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-300/90">
             {isRo ? "Servicii" : "Services"}

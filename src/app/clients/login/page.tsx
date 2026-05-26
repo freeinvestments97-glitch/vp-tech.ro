@@ -10,10 +10,10 @@ export default async function ClientLoginPage() {
     <div className="command-bg min-h-screen px-6 py-8 text-slate-100 md:px-10 md:py-10 xl:px-14">
       <main className="mx-auto w-full max-w-5xl">
         <Link
-          href="/clients"
+          href="/"
           className="mb-6 inline-block text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
         >
-          &larr; {isRo ? "Înapoi la Clienti" : "Back to Clients"}
+          &larr; {isRo ? "Înapoi la Home" : "Back to Home"}
         </Link>
 
         <div className="grid gap-8 xl:grid-cols-[1fr_1.15fr] xl:items-start">
