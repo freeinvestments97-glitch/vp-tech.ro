@@ -14,15 +14,14 @@ export default async function Home() {
     <div className="command-bg min-h-screen text-slate-100">
       <main className="flex w-full flex-col gap-10 px-6 py-7 md:px-10 md:py-10 xl:px-14">
         <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-800/80 bg-slate-950/70 px-5 py-4">
-          <div>
-            <p className="text-base font-semibold text-cyan-300">
-              VP TECHNOLOGIES
-            </p>
-            <p className="text-base text-slate-300">
-              {isRo
-                ? "Brand: vp-tech.ro | Companie: VP INVESTMENTS SRL"
-                : "Brand: vp-tech.ro | Legal Entity: VP INVESTMENTS SRL"}
-            </p>
+          <div className="select-none leading-none" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+            <div className="flex items-center gap-2">
+              <div className="h-5 w-[3px] rounded-full bg-cyan-400" />
+              <span className="text-[22px] font-bold tracking-[-0.01em] text-white">VP</span>
+            </div>
+            <span className="ml-[20px] block text-[9px] font-semibold tracking-[0.38em] text-cyan-400 uppercase mt-[3px]">
+              TECHNOLOGIES
+            </span>
           </div>
           <nav className="flex flex-wrap gap-2 text-base">
             <Link
@@ -48,6 +47,17 @@ export default async function Home() {
               className="rounded-md border border-cyan-300/55 bg-cyan-400 px-3 py-1.5 font-semibold text-slate-950 transition hover:bg-cyan-300"
             >
               {isRo ? "Începe acum" : "Get Started"}
+            </Link>
+            <Link
+              href={
+                isRo
+                  ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
+                  : "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
+              }
+              target="_blank"
+              className="rounded-md border border-slate-500/45 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-100 transition hover:border-cyan-400/45"
+            >
+              {isRo ? "Descarcă prezentarea PDF" : "Download PDF Deck"}
             </Link>
           </nav>
         </header>

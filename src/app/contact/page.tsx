@@ -36,6 +36,30 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               ? "Spune-ne unde vrei să crești și ce provocări ai. Noi îți propunem o soluție clară, realistă și orientată pe rezultate de business."
               : "Tell us where you want to grow and what challenges you face. We will propose a clear, practical solution focused on business outcomes."}
           </p>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <Link
+              href={
+                isRo
+                  ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
+                  : "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
+              }
+              target="_blank"
+              className="inline-block rounded-md border border-cyan-300/40 bg-cyan-500/15 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400/25"
+            >
+              {isRo ? "Prezentare profesionala (PDF — RO)" : "Download Presentation (PDF — EN)"}
+            </Link>
+            <Link
+              href={
+                isRo
+                  ? "/docs/VP-TECHNOLOGIES-Client-Presentation.pdf"
+                  : "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"
+              }
+              target="_blank"
+              className="inline-block rounded-md border border-slate-500/40 bg-slate-900/60 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/40"
+            >
+              {isRo ? "Download Presentation (PDF — EN)" : "Prezentare profesionala (PDF — RO)"}
+            </Link>
+          </div>
 
           {hasGuidedContext ? (
             <div className="mt-5 rounded-xl border border-emerald-400/45 bg-emerald-950/20 p-4">
