@@ -13,6 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vp-tech.ro"),
   title: "VP TECHNOLOGIES | vp-tech.ro",
   description:
     "VP TECHNOLOGIES (vp-tech.ro) - business technology services by VP INVESTMENTS SRL, covering infrastructure, security, cloud, and software solutions.",

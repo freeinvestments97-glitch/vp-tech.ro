@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { getServiceAreas } from "@/data/service-areas";
 import { getServiceModules } from "@/data/services";
+import { ArticleCard } from "@/components/blog/blog-index";
 import HeroSpotlight from "@/components/hero-spotlight";
 import Icon from "@/components/icon";
 import LiveMetrics from "@/components/live-metrics";
+import { blogPath, getPublishedArticles } from "@/lib/blog";
 import { MEET_BOOKING_URL } from "@/lib/links";
 import { getLocale } from "@/lib/locale";
 
@@ -14,6 +16,7 @@ export default async function Home() {
     getServiceModules(locale).map((service) => [service.slug, service.title]),
   );
   const areas = getServiceAreas(locale);
+  const latestArticles = (await getPublishedArticles()).slice(0, 3);
 
   const phases = isRo
     ? [
@@ -120,6 +123,28 @@ export default async function Home() {
             ))}
           </div>
         </section>
+
+        {latestArticles.length ? (
+          <section>
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+              <div className="min-w-0">
+                <p className="eyebrow !text-accent">{isRo ? "Din blog" : "From the blog"}</p>
+                <h2 className="mt-1.5 text-[22px] font-extrabold text-ink md:text-[26px]">
+                  {isRo ? "Săptămâna în tech, pentru afacerea ta" : "This week in tech, for your business"}
+                </h2>
+              </div>
+              <Link href={blogPath(locale)} className="btn">
+                {isRo ? "Toate articolele" : "All articles"}
+                <Icon name="arrowRight" className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-[18px] md:grid-cols-2 xl:grid-cols-3">
+              {latestArticles.map((article) => (
+                <ArticleCard key={article.id} article={article} lang={locale} />
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="grid gap-[18px] xl:grid-cols-[1.25fr_1fr]">
           <article className="card md:!p-7">

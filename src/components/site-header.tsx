@@ -19,12 +19,17 @@ export default function SiteHeader({ locale }: SiteHeaderProps) {
     { href: "/", label: isRo ? "Acasă" : "Home" },
     { href: "/services", label: isRo ? "Servicii" : "Services" },
     { href: "/clients", label: isRo ? "Clienți" : "Clients" },
+    { href: isRo ? "/ro/blog" : "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
     { href: ONBOARDING_URL, label: isRo ? "Începe" : "Get Started" },
   ];
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+  // /ro/blog/… counts as the Blog tab in either language
+  const path = pathname.replace(/^\/ro(?=\/blog)/, "");
+  const isActive = (href: string) => {
+    const target = href.replace(/^\/ro(?=\/blog)/, "");
+    return target === "/" ? path === "/" : path === target || path.startsWith(`${target}/`);
+  };
 
   return (
     <header className="hero-band sticky top-0 z-30 overflow-visible border-b border-white/10 shadow-[0_6px_20px_rgba(11,22,48,0.18)]">
@@ -75,7 +80,7 @@ export default function SiteHeader({ locale }: SiteHeaderProps) {
 
       {/* Mobile / tablet: app-style underline tabs */}
       <nav
-        className="shell flex overflow-x-auto [scrollbar-width:none] max-sm:!px-1.5 max-[374px]:[mask-image:linear-gradient(to_right,#000_85%,transparent)] lg:hidden [&::-webkit-scrollbar]:hidden"
+        className="shell flex overflow-x-auto [scrollbar-width:none] max-sm:!px-1.5 max-[459px]:[mask-image:linear-gradient(to_right,#000_85%,transparent)] lg:hidden [&::-webkit-scrollbar]:hidden"
         aria-label={isRo ? "Principal" : "Main"}
       >
         {tabs.map((tab) => (

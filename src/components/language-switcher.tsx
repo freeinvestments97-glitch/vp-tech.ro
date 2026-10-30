@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { Locale } from "@/lib/locale";
 
 type LanguageSwitcherProps = {
@@ -13,9 +13,17 @@ function saveLanguage(nextLocale: Locale) {
 
 export default function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const setLanguage = (nextLocale: Locale) => {
     saveLanguage(nextLocale);
+    // Blog URLs carry the language: go to the same page in the other language.
+    const blogPath = pathname.match(/^(?:\/ro)?(\/blog(?:\/.*)?)$/)?.[1];
+    if (blogPath) {
+      // full load so the shared header/footer re-render in the new language
+      window.location.assign(nextLocale === "ro" ? `/ro${blogPath}` : blogPath);
+      return;
+    }
     router.refresh();
   };
 
