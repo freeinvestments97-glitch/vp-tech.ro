@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ServiceModule } from "@/data/services";
 import type { Locale } from "@/lib/locale";
+import Icon from "@/components/icon";
 import ServiceIcon from "@/components/service-icon";
 
 type ServiceShowcaseProps = {
@@ -51,45 +52,94 @@ export default function ServiceShowcase({ service, locale }: ServiceShowcaseProp
     engagement: service.engagement,
   };
 
+  const tabs: Array<{ key: TabKey; label: string }> = [
+    { key: "capabilities", label: isRo ? "Capabilități" : "Capabilities" },
+    { key: "deliverables", label: isRo ? "Livrabile" : "Deliverables" },
+    { key: "engagement", label: isRo ? "Model colaborare" : "Engagement" },
+  ];
+
   return (
-    <section className="mt-6 space-y-5">
-      <div className="rounded-xl border border-cyan-700/40 bg-gradient-to-br from-cyan-950/30 to-slate-900/95 p-5 md:p-6">
+    <section className="grid gap-[18px] lg:grid-cols-[1.25fr_1fr]">
+      <div className="card lg:col-span-2">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div>
-            <h2 className="text-lg font-semibold text-cyan-100">
-              {isRo ? "Ce livrează acest serviciu" : "What this service delivers"}
-            </h2>
-            <p className="mt-2 text-base leading-8 text-slate-200">
+          <div className="min-w-0">
+            <div className="section-h !mb-3">
+              <span className="ico">
+                <Icon name="target" className="h-5 w-5" />
+              </span>
+              <h2>{isRo ? "Ce livrează acest serviciu" : "What this service delivers"}</h2>
+            </div>
+            <p className="text-[15px] leading-relaxed text-ink-2">
               {isRo
                 ? `Serviciul nostru de ${service.title.toLowerCase()} combină arhitectură, implementare și operațiuni administrate. Ne concentrăm pe rezultate măsurabile: reziliență, hardening de securitate, claritate operațională și mentenanță pe termen lung.`
                 : `Our ${service.title.toLowerCase()} offering combines architecture, implementation, and managed operations. We focus on measurable outcomes such as uptime resilience, security hardening, process clarity, and long-term maintainability aligned to your business priorities.`}
             </p>
-            <p className="mt-3 text-base leading-8 text-slate-200">
+            <p className="mt-3 text-[15px] leading-relaxed text-ink-2">
               {isRo
                 ? "Abordarea este structurată pentru vizibilitate clară: evaluare inițială, roadmap de implementare, livrabile validate și optimizare continuă."
                 : "The engagement is structured to give decision-makers clear visibility: baseline assessment, implementation roadmap, validated deliverables, and ongoing optimization checkpoints."}
             </p>
           </div>
-          <div className="rounded-lg border border-cyan-500/30 bg-slate-950/70 p-4">
-            <ServiceIcon slug={service.slug} variant="panel" />
-          </div>
+          <ServiceIcon slug={service.slug} variant="panel" />
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-700/70 bg-slate-900/85 p-5">
-        <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-300">
-          {isRo ? "Indice impact operațional" : "Operational Impact Index"}
-        </h3>
-        <div className="mt-4 space-y-4">
+      <div className="card min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h3 className="text-[16px] font-bold text-ink">
+            {tabs.find((item) => item.key === tab)?.label}
+          </h3>
+          <div className="inline-flex max-w-full gap-0.5 overflow-x-auto rounded-[10px] bg-surface-2 p-[3px]">
+            {tabs.map((item) => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => setTab(item.key)}
+                aria-pressed={tab === item.key}
+                className={`flex-none cursor-pointer rounded-lg px-3 py-1.5 text-[13.5px] font-semibold transition ${
+                  tab === item.key
+                    ? "bg-surface text-ink shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
+                    : "text-ink-2 hover:text-ink"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <ul className="mt-3">
+          {tabContent[tab].map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-2.5 border-t border-line py-2.5 text-[14.5px] text-ink first:border-t-0"
+            >
+              <Icon name="checkCircle" className="mt-0.5 h-[18px] w-[18px] text-ok" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="card min-w-0">
+        <div className="section-h">
+          <span className="ico">
+            <Icon name="gauge" className="h-5 w-5" />
+          </span>
+          <h2 className="!text-[16px]">
+            {isRo ? "Indice impact operațional" : "Operational Impact Index"}
+          </h2>
+        </div>
+        <div className="space-y-4">
           {kpis.map((kpi) => (
             <div key={kpi.label}>
-              <div className="mb-1 flex items-center justify-between text-sm text-slate-200">
+              <div className="mb-1.5 flex items-center justify-between text-[13.5px] text-ink-2">
                 <span>{kpi.label}</span>
-                <span>{kpi.value}%</span>
+                <span className="text-[15px] font-extrabold text-ink">{kpi.value}%</span>
               </div>
-              <div className="h-2 rounded-full bg-slate-800">
-                <div
-                  className="h-full rounded-full bg-cyan-400 transition-all duration-700"
+              <div className="track">
+                <span
+                  className="transition-[width] duration-700"
                   style={{ width: animateBars ? `${kpi.value}%` : "0%" }}
                 />
               </div>
@@ -97,53 +147,6 @@ export default function ServiceShowcase({ service, locale }: ServiceShowcaseProp
           ))}
         </div>
       </div>
-
-      <div className="rounded-xl border border-slate-700/70 bg-slate-900/85 p-5">
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setTab("capabilities")}
-            className={`rounded-md px-3 py-1.5 text-sm font-semibold transition ${
-              tab === "capabilities"
-                ? "border border-cyan-300/55 bg-cyan-500/20 text-cyan-100"
-                : "border border-slate-600/70 bg-slate-900 text-slate-300 hover:border-cyan-500/40"
-            }`}
-          >
-            {isRo ? "Capabilități" : "Capabilities"}
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab("deliverables")}
-            className={`rounded-md px-3 py-1.5 text-sm font-semibold transition ${
-              tab === "deliverables"
-                ? "border border-cyan-300/55 bg-cyan-500/20 text-cyan-100"
-                : "border border-slate-600/70 bg-slate-900 text-slate-300 hover:border-cyan-500/40"
-            }`}
-          >
-            {isRo ? "Livrabile" : "Deliverables"}
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab("engagement")}
-            className={`rounded-md px-3 py-1.5 text-sm font-semibold transition ${
-              tab === "engagement"
-                ? "border border-cyan-300/55 bg-cyan-500/20 text-cyan-100"
-                : "border border-slate-600/70 bg-slate-900 text-slate-300 hover:border-cyan-500/40"
-            }`}
-          >
-            {isRo ? "Model colaborare" : "Engagement"}
-          </button>
-        </div>
-
-        <ul className="mt-4 space-y-3 text-base leading-8 text-slate-200">
-          {tabContent[tab].map((item) => (
-            <li key={item} className="rounded-md border border-slate-700/70 bg-slate-950/60 px-4 py-3">
-              - {item}
-            </li>
-          ))}
-        </ul>
-      </div>
     </section>
   );
 }
-

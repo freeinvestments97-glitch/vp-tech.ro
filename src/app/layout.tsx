@@ -1,31 +1,25 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import PageTransition from "@/components/page-transition";
-import SiteStatusBar from "@/components/site-status-bar";
+import SiteHeader from "@/components/site-header";
 import { getLocale } from "@/lib/locale";
+import { ONBOARDING_URL } from "@/lib/links";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata: Metadata = {
   title: "VP TECHNOLOGIES | vp-tech.ro",
   description:
     "VP TECHNOLOGIES (vp-tech.ro) - business technology services by VP INVESTMENTS SRL, covering infrastructure, security, cloud, and software solutions.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b1630",
 };
 
 export default async function RootLayout({
@@ -36,51 +30,43 @@ export default async function RootLayout({
   const locale = await getLocale();
   const isRo = locale === "ro";
 
+  const footerLinks = [
+    { href: ONBOARDING_URL, label: isRo ? "Începe" : "Get Started" },
+    { href: "/contact", label: "Contact" },
+    { href: "/privacy-policy", label: isRo ? "Politică de confidențialitate" : "Privacy Policy" },
+    { href: "/cookie-policy", label: isRo ? "Politică cookie" : "Cookie Policy" },
+    { href: "/terms-and-conditions", label: isRo ? "Termeni și condiții" : "Terms and Conditions" },
+  ];
+
   return (
-    <html
-      lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <SiteStatusBar locale={locale} />
+    <html lang={locale} className={`${inter.variable} h-full`}>
+      <body className="flex min-h-full flex-col">
+        <SiteHeader locale={locale} />
         <div className="flex-1">
           <PageTransition>{children}</PageTransition>
         </div>
-        <footer className="border-t border-cyan-900/45 bg-slate-950/95 px-6 py-6 md:px-10 xl:px-14">
-          <div className="flex w-full flex-col gap-5 md:flex-row md:items-start md:justify-between">
+        <footer className="shell">
+          <div className="mt-9 flex flex-col gap-5 border-t border-line pt-7 pb-10 text-[13px] text-ink-3 md:flex-row md:items-start md:justify-between">
             <div className="flex flex-col gap-1">
-              <p className="text-xs text-slate-300">
+              <p className="font-semibold text-ink-2">
                 {isRo
-                  ? "VP TECHNOLOGIES (vp-tech.ro) | Entitate juridică: VP INVESTMENTS SRL"
-                  : "VP TECHNOLOGIES (vp-tech.ro) | Legal entity: VP INVESTMENTS SRL"}
+                  ? "VP TECHNOLOGIES (vp-tech.ro) · Entitate juridică: VP INVESTMENTS SRL"
+                  : "VP TECHNOLOGIES (vp-tech.ro) · Legal entity: VP INVESTMENTS SRL"}
               </p>
-              <p className="text-xs text-slate-400">
+              <p>
                 {isRo
-                  ? "CUI 51453103 | Nr. Reg. Com. J2025018400006 | EUID ROONRC.J2025018400006"
-                  : "VAT/Tax ID 51453103 | Trade Register J2025018400006 | EUID ROONRC.J2025018400006"}
+                  ? "CUI 51453103 · Nr. Reg. Com. J2025018400006 · EUID ROONRC.J2025018400006"
+                  : "VAT/Tax ID 51453103 · Trade Register J2025018400006 · EUID ROONRC.J2025018400006"}
               </p>
             </div>
-            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-cyan-300">
-              <Link className="transition hover:text-cyan-200" href="/get-started">
-                {isRo ? "Începe" : "Get Started"}
-              </Link>
-              <Link className="transition hover:text-cyan-200" href="/contact">
-                {isRo ? "Contact" : "Contact"}
-              </Link>
-              <Link className="transition hover:text-cyan-200" href="/privacy-policy">
-                {isRo ? "Politică de confidențialitate" : "Privacy Policy"}
-              </Link>
-              <Link className="transition hover:text-cyan-200" href="/cookie-policy">
-                {isRo ? "Politică cookie" : "Cookie Policy"}
-              </Link>
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              {footerLinks.map((link) => (
+                <Link key={link.href} className="transition hover:text-accent" href={link.href}>
+                  {link.label}
+                </Link>
+              ))}
               <Link
-                className="transition hover:text-cyan-200"
-                href="/terms-and-conditions"
-              >
-                {isRo ? "Termeni și condiții" : "Terms and Conditions"}
-              </Link>
-              <Link
-                className="transition hover:text-cyan-200"
+                className="font-semibold text-accent-ink transition hover:text-accent"
                 href={
                   isRo
                     ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"

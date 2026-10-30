@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Icon from "@/components/icon";
+import PageHero from "@/components/page-hero";
 import ServiceShowcase from "@/components/service-showcase";
 import { getServiceModules, serviceModules } from "@/data/services";
 import { getLocale } from "@/lib/locale";
@@ -23,99 +25,120 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const phases = [
+    {
+      label: isRo ? "Faza 01" : "Phase 01",
+      title: isRo ? "Evaluare" : "Assessment",
+      text: isRo
+        ? "Evaluăm mediul actual, identificăm riscurile și definim o arhitectură țintă aplicabilă."
+        : "We evaluate the current environment, identify risks, and define a practical target architecture.",
+    },
+    {
+      label: isRo ? "Faza 02" : "Phase 02",
+      title: isRo ? "Implementare" : "Implementation",
+      text: isRo
+        ? "Implementăm, configurăm și validăm soluția prin execuție controlată și checkpoint-uri de calitate."
+        : "We deploy, configure, and validate the solution using controlled execution and quality checkpoints.",
+    },
+    {
+      label: isRo ? "Faza 03" : "Phase 03",
+      title: isRo ? "Optimizare" : "Optimization",
+      text: isRo
+        ? "Monitorizăm rezultatele, îmbunătățim performanța și susținem echipa prin ghidaj operațional continuu."
+        : "We monitor results, improve performance, and support the team with ongoing operational guidance.",
+    },
+  ];
+
   return (
-    <div className="command-bg min-h-screen text-slate-100">
-      <main className="w-full px-6 py-8 md:px-10 md:py-10 xl:px-14">
-        <Link
-          href="/"
-          className="mb-6 inline-block text-sm font-semibold text-cyan-300 transition hover:text-cyan-200"
-        >
-          &larr; {isRo ? "Înapoi la Home" : "Back to Home"}
-        </Link>
+    <>
+      <PageHero
+        overlap
+        eyebrow={service.unit}
+        title={service.title}
+        description={
+          <>
+            <p>{service.description}</p>
+            <p className="mt-3 text-slate-400">
+              {isRo
+                ? "Lucrăm ca partener orientat pe execuție: strategie, implementare și suport administrat pentru rezultate concrete de business."
+                : "We work as an execution-focused partner, combining strategy, implementation, and managed support to ensure this service produces tangible business results, not just technical output."}
+            </p>
+          </>
+        }
+        actions={
+          <>
+            <Link href={`/contact?service=${service.slug}`} className="btn primary lg">
+              {isRo ? "Solicită acest serviciu" : "Request This Service"}
+              <Icon name="arrowRight" className="h-[18px] w-[18px]" />
+            </Link>
+            <Link href="/services" className="btn on-dark lg">
+              <Icon name="grid" className="h-[18px] w-[18px]" />
+              {isRo ? "Servicii" : "Services"}
+            </Link>
+          </>
+        }
+      />
 
-        <section className="rounded-2xl border border-cyan-500/35 bg-slate-950/90 p-6 shadow-xl shadow-cyan-900/20 md:p-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-300/90">
-            {service.unit}
-          </p>
-          <h1 className="mt-2 text-3xl font-bold text-cyan-50 md:text-4xl">
-            {service.title}
-          </h1>
-          <p className="mt-4 text-base leading-8 text-slate-200">
-            {service.description}
-          </p>
-          <p className="mt-3 text-base leading-8 text-slate-200">
-            {isRo
-              ? "Lucrăm ca partener orientat pe execuție: strategie, implementare și suport administrat pentru rezultate concrete de business."
-              : "We work as an execution-focused partner, combining strategy, implementation, and managed support to ensure this service produces tangible business results, not just technical output."}
-          </p>
-
-          <div className="mt-6 rounded-xl border border-cyan-900/45 bg-cyan-950/20 p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-300">
+      <main className="shell relative -mt-16 space-y-7 pb-8">
+        <section className="card flex items-start gap-4">
+          <span className="ico">
+            <Icon name="layers" className="h-5 w-5" />
+          </span>
+          <div className="min-w-0">
+            <h2 className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink-3">
               {isRo ? "Domeniul serviciului" : "Service Scope"}
             </h2>
-            <p className="mt-2 text-base leading-7 text-slate-200">{service.scope}</p>
-          </div>
-
-          <ServiceShowcase service={service} locale={locale} />
-
-          <div className="mt-5 rounded-xl border border-slate-700/70 bg-slate-900/80 p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-300">
-              {isRo ? "Cadru de livrare" : "Delivery Framework"}
-            </h2>
-            <div className="mt-4 grid gap-3 md:grid-cols-3">
-              <article className="rounded-lg border border-slate-700/70 bg-slate-950/60 p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/90">
-                  {isRo ? "Faza 01" : "Phase 01"}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-100">
-                  {isRo ? "Evaluare" : "Assessment"}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  {isRo
-                    ? "Evaluăm mediul actual, identificăm riscurile și definim o arhitectură țintă aplicabilă."
-                    : "We evaluate the current environment, identify risks, and define a practical target architecture."}
-                </p>
-              </article>
-              <article className="rounded-lg border border-slate-700/70 bg-slate-950/60 p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/90">
-                  {isRo ? "Faza 02" : "Phase 02"}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-100">
-                  {isRo ? "Implementare" : "Implementation"}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  {isRo
-                    ? "Implementăm, configurăm și validăm soluția prin execuție controlată și checkpoint-uri de calitate."
-                    : "We deploy, configure, and validate the solution using controlled execution and quality checkpoints."}
-                </p>
-              </article>
-              <article className="rounded-lg border border-slate-700/70 bg-slate-950/60 p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/90">
-                  {isRo ? "Faza 03" : "Phase 03"}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-100">
-                  {isRo ? "Optimizare" : "Optimization"}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  {isRo
-                    ? "Monitorizăm rezultatele, îmbunătățim performanța și susținem echipa prin ghidaj operațional continuu."
-                    : "We monitor results, improve performance, and support the team with ongoing operational guidance."}
-                </p>
-              </article>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <Link
-              href="/contact"
-              className="inline-block rounded-md border border-cyan-300/40 bg-cyan-500/15 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400/25"
-            >
-              {isRo ? "Solicită acest serviciu" : "Request This Service"}
-            </Link>
+            <p className="mt-1.5 text-[15.5px] leading-relaxed text-ink">{service.scope}</p>
           </div>
         </section>
+
+        <ServiceShowcase service={service} locale={locale} />
+
+        <section>
+          <div className="section-h">
+            <span className="ico">
+              <Icon name="calendar" className="h-5 w-5" />
+            </span>
+            <h2>{isRo ? "Cadru de livrare" : "Delivery Framework"}</h2>
+          </div>
+          {/* App-style timeline: numbered nodes on a connecting rail */}
+          <ol className="grid gap-[18px] md:grid-cols-3">
+            {phases.map((phase, index) => (
+              <li key={phase.label} className="relative pt-[34px]">
+                <span
+                  aria-hidden="true"
+                  className={`absolute top-[13px] left-0 h-[3px] rounded-[3px] bg-line ${
+                    index === phases.length - 1 ? "right-0" : "right-0 md:-right-[18px]"
+                  }`}
+                />
+                <span className="absolute top-0 left-0 grid h-[30px] w-[30px] place-items-center rounded-full border-[3px] border-accent bg-surface text-[13px] font-extrabold text-accent shadow-[0_0_0_6px_var(--accent-soft)]">
+                  {index + 1}
+                </span>
+                <article className="card h-full !p-[18px]">
+                  <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-ink-3">
+                    {phase.label}
+                  </p>
+                  <h3 className="mt-1 text-[16px] font-bold text-ink">{phase.title}</h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{phase.text}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <div className="card flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-3">
+            <span className="ico ok">
+              <Icon name="checkCircle" className="h-5 w-5" />
+            </span>
+            <p className="text-[15.5px] font-semibold text-ink">{service.title}</p>
+          </div>
+          <Link href="/contact" className="btn primary">
+            {isRo ? "Solicită acest serviciu" : "Request This Service"}
+            <Icon name="arrowRight" className="h-4 w-4" />
+          </Link>
+        </div>
       </main>
-    </div>
+    </>
   );
 }
-

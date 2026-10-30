@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Icon, { type IconName } from "@/components/icon";
 import type { Locale } from "@/lib/locale";
+
+const METRIC_ICONS: IconName[] = ["grid", "target", "headset", "layers"];
 
 type Metric = {
   label: string;
@@ -36,35 +39,36 @@ export default function LiveMetrics({ locale }: LiveMetricsProps) {
   useEffect(() => {
     const durationMs = 900;
     const start = performance.now();
+    let rafId = 0;
 
     const frame = (timestamp: number) => {
       const progress = Math.min((timestamp - start) / durationMs, 1);
       setCounts(metrics.map((metric) => Math.round(metric.value * progress)));
       if (progress < 1) {
-        requestAnimationFrame(frame);
+        rafId = requestAnimationFrame(frame);
       }
     };
 
-    requestAnimationFrame(frame);
+    rafId = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(rafId);
   }, [metrics]);
 
   return (
-    <section className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+    <section className="grid grid-cols-2 gap-3.5 xl:grid-cols-4">
       {metrics.map((metric, index) => (
-        <article
-          key={metric.label}
-          className="rounded-xl border border-cyan-500/25 bg-slate-900/85 p-5 transition hover:border-cyan-400/45"
-        >
-          <p className="text-xs uppercase tracking-[0.16em] text-cyan-300/90">
-            {metric.label}
-          </p>
-          <p className="mt-2 text-2xl font-semibold text-slate-100">
+        <article key={metric.label} className="card !p-4 !pb-3.5">
+          <div className={`ico mb-3 ${index === 2 ? "ok" : ""}`}>
+            <Icon name={METRIC_ICONS[index] ?? "layers"} className="h-5 w-5" />
+          </div>
+          <p className="text-[26px] leading-[1.1] font-extrabold tracking-[-0.02em] text-ink">
             {counts[index]}
-            {metric.suffix ?? ""}
+            {metric.suffix ? (
+              <small className="text-[15px] font-semibold text-ink-3">{metric.suffix}</small>
+            ) : null}
           </p>
+          <p className="mt-0.5 text-[13px] font-medium text-ink-2">{metric.label}</p>
         </article>
       ))}
     </section>
   );
 }
-

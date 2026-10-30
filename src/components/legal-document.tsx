@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Icon from "@/components/icon";
+import PageHero from "@/components/page-hero";
 import type { LegalDocument } from "@/data/legal";
 import type { Locale } from "@/lib/locale";
 
@@ -33,82 +35,114 @@ export default function LegalDocumentView({ document, locale }: LegalDocumentPro
   }, [document.sections, query]);
 
   return (
-    <section className="w-full rounded-2xl border border-cyan-500/35 bg-slate-950/90 p-6 shadow-xl shadow-cyan-900/20 md:p-8">
-      <p className="text-xs uppercase tracking-[0.2em] text-cyan-300/90">
-        {isRo ? "Legal" : "Legal"}
-      </p>
-      <h1 className="mt-2 text-3xl font-bold text-cyan-50 md:text-4xl">
-        {document.title}
-      </h1>
-      <p className="mt-2 text-sm text-slate-300">
-        {isRo ? "Data intrării în vigoare" : "Effective date"}: {document.effectiveDate}
-      </p>
+    <>
+      <PageHero
+        overlap
+        eyebrow="Legal"
+        title={document.title}
+        description={document.summary}
+        actions={
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[13px] font-semibold text-blue-100">
+            <Icon name="calendar" className="h-4 w-4 text-accent-2" />
+            {isRo ? "Data intrării în vigoare" : "Effective date"}: {document.effectiveDate}
+          </span>
+        }
+      />
 
-      <p className="mt-5 text-base leading-8 text-slate-200">
-        {document.summary}
-      </p>
+      <main className="shell pb-6">
+        <div className="relative -mt-16 grid gap-[18px] xl:grid-cols-[280px_minmax(0,1fr)]">
+          {document.sections.length > 0 ? (
+            <aside className="hidden xl:block">
+              <nav className="card sticky top-[88px] !p-4" aria-label={isRo ? "Cuprins" : "Contents"}>
+                <p className="px-2 pb-2 text-[11.5px] font-bold uppercase tracking-[0.08em] text-ink-3">
+                  {isRo ? "Cuprins" : "Contents"}
+                </p>
+                <ul className="space-y-0.5">
+                  {document.sections.map((section) => (
+                    <li key={section.id}>
+                      <a
+                        href={`#${section.id}`}
+                        className="block rounded-lg px-2 py-1.5 text-[13.5px] font-medium text-ink-2 transition hover:bg-surface-2 hover:text-ink"
+                      >
+                        {section.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </aside>
+          ) : null}
 
-      <div className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm leading-7 text-amber-100/90">
-        {document.disclaimer}
-      </div>
+          <article className="card min-w-0 max-w-4xl md:!p-8">
+            <div className="flex gap-3 rounded-xl bg-warn-soft px-4 py-3 text-sm leading-relaxed text-warn">
+              <Icon name="alert" className="mt-0.5 h-[18px] w-[18px]" />
+              <p>{document.disclaimer}</p>
+            </div>
 
-      <div className="mt-6 flex flex-col gap-3 rounded-xl border border-slate-700/70 bg-slate-900/80 p-4 md:flex-row md:items-center md:justify-between">
-        <input
-          type="search"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder={isRo ? "Caută secțiuni..." : "Search policy sections..."}
-          className="w-full rounded-md border border-slate-600/80 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-cyan-400/70 md:max-w-md"
-        />
-        <button
-          type="button"
-          onClick={() => setExpandAll((value) => !value)}
-          className="rounded-md border border-cyan-300/40 bg-cyan-500/15 px-3 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400/25"
-        >
-          {expandAll
-            ? isRo
-              ? "Restrânge toate secțiunile"
-              : "Collapse all sections"
-            : isRo
-              ? "Extinde toate secțiunile"
-              : "Expand all sections"}
-        </button>
-      </div>
+            <div className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:items-center">
+              <label className="relative min-w-0 flex-1">
+                <Icon name="search" className="pointer-events-none absolute top-1/2 left-3.5 h-[18px] w-[18px] -translate-y-1/2 text-ink-3" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={isRo ? "Caută secțiuni..." : "Search policy sections..."}
+                  className="input !pl-10 !text-[15px]"
+                />
+              </label>
+              <button type="button" onClick={() => setExpandAll((value) => !value)} className="btn">
+                {expandAll
+                  ? isRo
+                    ? "Restrânge toate secțiunile"
+                    : "Collapse all sections"
+                  : isRo
+                    ? "Extinde toate secțiunile"
+                    : "Expand all sections"}
+              </button>
+            </div>
 
-      <div className="mt-6 space-y-3">
-        {filteredSections.length === 0 ? (
-          <p className="rounded-lg border border-slate-700/70 bg-slate-900/70 px-4 py-3 text-sm text-slate-300">
-            {isRo
-              ? `Nu există secțiuni potrivite pentru "${query}".`
-              : `No matching section found for "${query}".`}
-          </p>
-        ) : (
-          filteredSections.map((section) => (
-            <details
-              key={section.id}
-              open={expandAll || query.length > 0}
-              className="rounded-xl border border-slate-700/70 bg-slate-900/80 p-5 transition"
-            >
-              <summary className="cursor-pointer list-none text-base font-semibold text-cyan-100">
-                {section.title}
-              </summary>
-              <div className="mt-3 space-y-3 text-sm leading-7 text-slate-300 md:text-base">
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-                {section.bullets ? (
-                  <ul className="space-y-1">
-                    {section.bullets.map((bullet) => (
-                      <li key={bullet}>- {bullet}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            </details>
-          ))
-        )}
-      </div>
-    </section>
+            <div className="mt-5">
+              {filteredSections.length === 0 ? (
+                <p className="flex items-center gap-2 py-3 text-sm text-ink-3">
+                  <Icon name="info" className="h-[18px] w-[18px]" />
+                  {isRo
+                    ? `Nu există secțiuni potrivite pentru "${query}".`
+                    : `No matching section found for "${query}".`}
+                </p>
+              ) : (
+                filteredSections.map((section) => (
+                  <details
+                    key={section.id}
+                    id={section.id}
+                    open={expandAll || query.length > 0}
+                    className="group scroll-mt-24 border-t border-line py-4 first:border-t-0"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+                      <h2 className="text-[17px] font-bold text-ink">{section.title}</h2>
+                      <Icon name="chevronRight" className="h-[18px] w-[18px] text-ink-3 transition group-open:rotate-90" />
+                    </summary>
+                    <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-ink-2">
+                      {section.paragraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                      {section.bullets ? (
+                        <ul className="space-y-1.5">
+                          {section.bullets.map((bullet) => (
+                            <li key={bullet} className="flex gap-2.5">
+                              <Icon name="check" className="mt-1 h-4 w-4 text-accent" />
+                              <span>{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  </details>
+                ))
+              )}
+            </div>
+          </article>
+        </div>
+      </main>
+    </>
   );
 }
-

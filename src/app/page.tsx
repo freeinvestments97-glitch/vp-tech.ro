@@ -1,167 +1,210 @@
 import Link from "next/link";
+import { getServiceAreas } from "@/data/service-areas";
 import { getServiceModules } from "@/data/services";
 import HeroSpotlight from "@/components/hero-spotlight";
+import Icon from "@/components/icon";
 import LiveMetrics from "@/components/live-metrics";
-import ServiceExplorer from "@/components/service-explorer";
 import { getLocale } from "@/lib/locale";
 
 export default async function Home() {
   const locale = await getLocale();
   const isRo = locale === "ro";
-  const localizedServices = getServiceModules(locale);
+  const serviceTitles = new Map(
+    getServiceModules(locale).map((service) => [service.slug, service.title]),
+  );
+  const areas = getServiceAreas(locale);
+
+  const phases = isRo
+    ? [
+        {
+          title: "Analiza",
+          body: "Înțelegem modelul de business, punctele slabe și oportunitățile de creștere.",
+        },
+        {
+          title: "Implementare",
+          body: "Implementăm în etape clare, cu impact minim asupra activității zilnice.",
+        },
+        {
+          title: "Optimizare",
+          body: "Măsurăm rezultatele și ajustăm continuu pentru performanță mai bună.",
+        },
+      ]
+    : [
+        {
+          title: "Discover",
+          body: "We understand your business model, weak points, and growth opportunities.",
+        },
+        {
+          title: "Build",
+          body: "We implement in clear phases, with minimal impact on daily operations.",
+        },
+        {
+          title: "Optimize",
+          body: "We measure outcomes and continuously adjust for better performance.",
+        },
+      ];
+
+  const reasons = isRo
+    ? [
+        "Primești un singur partener pentru infrastructură, securitate și software.",
+        "Reducem riscurile și costurile generate de întreruperi sau incidente.",
+        "Comunicăm clar, pe înțelesul managementului, nu doar tehnic.",
+        "Ne concentrăm pe rezultate măsurabile: stabilitate, timp economisit și creștere.",
+      ]
+    : [
+        "You get one partner for infrastructure, security, and software.",
+        "We reduce risk and costs caused by downtime or incidents.",
+        "We communicate clearly for management, not only technical teams.",
+        "We focus on measurable outcomes: stability, time saved, and growth.",
+      ];
 
   return (
-    <div className="command-bg min-h-screen text-slate-100">
-      <main className="flex w-full flex-col gap-10 px-6 py-7 md:px-10 md:py-10 xl:px-14">
-        <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-800/80 bg-slate-950/70 px-5 py-4">
-          <div className="select-none leading-none" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-            <div className="flex items-center gap-2">
-              <div className="h-5 w-[3px] rounded-full bg-cyan-400" />
-              <span className="text-[22px] font-bold tracking-[-0.01em] text-white">VP</span>
+    <>
+      <HeroSpotlight locale={locale} />
+
+      <main className="shell flex flex-col gap-10 pb-6">
+        <div className="relative -mt-16">
+          <LiveMetrics locale={locale} />
+        </div>
+
+        {/* Overview of the four service areas; the full catalogue lives on /services */}
+        <section>
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+            <div className="min-w-0">
+              <p className="eyebrow !text-accent">{isRo ? "Ce facem" : "What We Do"}</p>
+              <h2 className="mt-1.5 text-[22px] font-extrabold text-ink md:text-[26px]">
+                {isRo
+                  ? "Patru arii, un singur partener tehnologic"
+                  : "Four areas, one technology partner"}
+              </h2>
             </div>
-            <span className="ml-[20px] block text-[9px] font-semibold tracking-[0.38em] text-cyan-400 uppercase mt-[3px]">
-              TECHNOLOGIES
-            </span>
+            <Link href="/services" className="btn">
+              {isRo ? "Toate cele 15 servicii" : "All 15 services"}
+              <Icon name="arrowRight" className="h-4 w-4" />
+            </Link>
           </div>
-          <nav className="flex w-full flex-wrap gap-2 text-base md:w-auto">
-            <Link
-              href="/"
-              className="rounded-md border border-cyan-500/35 bg-cyan-500/10 px-3 py-1.5 font-semibold text-cyan-200"
-            >
-              {isRo ? "Acasa" : "Home"}
-            </Link>
-            <Link
-              href="/services"
-              className="rounded-md border border-slate-600/70 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-200 transition hover:border-cyan-500/35"
-            >
-              {isRo ? "Servicii" : "Services"}
-            </Link>
-            <Link
-              href="/clients"
-              className="rounded-md border border-slate-600/70 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-200 transition hover:border-cyan-500/35"
-            >
-              {isRo ? "Clienti" : "Clients"}
-            </Link>
-            <Link
-              href="/contact"
-              className="rounded-md border border-slate-600/70 bg-slate-900/80 px-3 py-1.5 font-semibold text-slate-200 transition hover:border-cyan-500/35"
-            >
-              {isRo ? "Contact" : "Contact"}
-            </Link>
-            <Link
-              href="/get-started"
-              className="rounded-md border border-cyan-300/55 bg-cyan-400 px-3 py-1.5 font-semibold text-slate-950 transition hover:bg-cyan-300"
-            >
-              {isRo ? "Începe acum" : "Get Started"}
-            </Link>
-          </nav>
-        </header>
 
-        <HeroSpotlight locale={locale} />
+          <div className="grid gap-[18px] md:grid-cols-2 xl:grid-cols-4">
+            {areas.map((area) => (
+              <article key={area.id} className="card flex flex-col">
+                <span className="ico !h-11 !w-11 !rounded-xl">
+                  <Icon name={area.icon} className="h-[22px] w-[22px]" />
+                </span>
+                <h3 className="mt-4 text-[18px] font-bold text-ink">{area.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-ink-2">{area.summary}</p>
+                <ul className="mt-4 border-t border-line pt-2">
+                  {area.slugs.map((slug) => (
+                    <li key={slug}>
+                      <Link
+                        href={`/services/${slug}`}
+                        className="group flex items-center justify-between gap-2 py-1.5 text-sm font-medium text-ink transition hover:text-accent"
+                      >
+                        {serviceTitles.get(slug)}
+                        <Icon
+                          name="chevronRight"
+                          className="h-4 w-4 text-ink-3 transition group-hover:text-accent"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={`/services#${area.id}`}
+                  className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-accent-ink hover:text-accent"
+                >
+                  {isRo ? "Vezi în catalog" : "View in catalogue"}
+                  <Icon name="arrowRight" className="h-4 w-4" />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
 
-        <LiveMetrics locale={locale} />
-
-        <ServiceExplorer services={localizedServices} locale={locale} />
-
-        <section className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
-          <article className="rounded-xl border border-cyan-500/25 bg-slate-950/78 p-6 md:p-7">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-300/90">
-              {isRo ? "Cum lucrăm cu clienții" : "How We Work With Clients"}
-            </p>
-            <h2 className="mt-2 text-2xl font-bold text-cyan-50">
-              {isRo
-                ? "Transformăm tehnologia în rezultate clare de business"
-                : "We Turn Technology Into Clear Business Results"}
-            </h2>
-            <p className="mt-4 text-base leading-8 text-slate-100">
+        <section className="grid gap-[18px] xl:grid-cols-[1.25fr_1fr]">
+          <article className="card md:!p-7">
+            <div className="section-h">
+              <span className="ico">
+                <Icon name="activity" />
+              </span>
+              <div className="min-w-0">
+                <p className="eyebrow !text-accent">
+                  {isRo ? "Cum lucrăm cu clienții" : "How We Work With Clients"}
+                </p>
+                <h2 className="mt-0.5 !text-[22px] text-ink">
+                  {isRo
+                    ? "Transformăm tehnologia în rezultate clare de business"
+                    : "We Turn Technology Into Clear Business Results"}
+                </h2>
+              </div>
+            </div>
+            <p className="text-[15px] leading-relaxed text-ink-2">
               {isRo
                 ? "Începem de la obiectivele tale comerciale: vânzări, eficiență, continuitate și satisfacția clienților. Apoi construim soluția tehnică potrivită, fără complexitate inutilă."
                 : "We start from your business goals: revenue, efficiency, continuity, and customer satisfaction. Then we build the right technical solution without unnecessary complexity."}
             </p>
-            <div className="mt-5 grid gap-3 md:grid-cols-3">
-              <article
-                className="rounded-lg border border-slate-700/70 bg-slate-900/75 p-4"
-              >
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/90">
-                  {isRo ? "Faza 1" : "Phase 1"}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-100">
-                  {isRo ? "Analiza" : "Discover"}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">
-                  {isRo
-                    ? "Înțelegem modelul de business, punctele slabe și oportunitățile de creștere."
-                    : "We understand your business model, weak points, and growth opportunities."}
-                </p>
-              </article>
-              <article className="rounded-lg border border-slate-700/70 bg-slate-900/70 p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/90">
-                  {isRo ? "Faza 2" : "Phase 2"}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-100">
-                  {isRo ? "Implementare" : "Build"}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">
-                  {isRo
-                    ? "Implementăm în etape clare, cu impact minim asupra activității zilnice."
-                    : "We implement in clear phases, with minimal impact on daily operations."}
-                </p>
-              </article>
-              <article className="rounded-lg border border-slate-700/70 bg-slate-900/70 p-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/90">
-                  {isRo ? "Faza 3" : "Phase 3"}
-                </p>
-                <p className="mt-2 text-sm font-semibold text-slate-100">
-                  {isRo ? "Optimizare" : "Optimize"}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-200">
-                  {isRo
-                    ? "Măsurăm rezultatele și ajustăm continuu pentru performanță mai bună."
-                    : "We measure outcomes and continuously adjust for better performance."}
-                </p>
-              </article>
-            </div>
+
+            {/* app-style timeline: numbered nodes joined by a track */}
+            <ol className="mt-6 grid gap-[18px] md:grid-cols-3">
+              {phases.map((phase, index) => (
+                <li key={phase.title} className="relative pt-[34px]">
+                  <span
+                    aria-hidden="true"
+                    className={`absolute top-[13px] left-0 h-[3px] rounded-[3px] ${
+                      index === phases.length - 1 ? "right-0" : "right-0 md:-right-[18px]"
+                    } ${index === 0 ? "bg-ok" : index === 1 ? "bg-gradient-to-r from-accent to-line" : "bg-line"}`}
+                  />
+                  <span
+                    className={`absolute top-0 left-0 grid h-[30px] w-[30px] place-items-center rounded-full border-[3px] text-[13px] font-extrabold ${
+                      index === 0
+                        ? "border-ok bg-ok text-white"
+                        : index === 1
+                          ? "border-accent bg-surface text-accent shadow-[0_0_0_6px_var(--accent-soft)]"
+                          : "border-line bg-surface text-ink-3"
+                    }`}
+                  >
+                    {index + 1}
+                  </span>
+                  <div className="rounded-[14px] border border-line bg-surface-2 p-4">
+                    <p className="text-[11.5px] font-bold tracking-[0.08em] text-ink-3 uppercase">
+                      {isRo ? `Faza ${index + 1}` : `Phase ${index + 1}`}
+                    </p>
+                    <h3 className="mt-1 text-base font-bold text-ink">{phase.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-ink-2">{phase.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </article>
 
-          <aside className="rounded-xl border border-emerald-500/30 bg-emerald-950/18 p-6 md:p-7">
-            <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/90">
-              {isRo ? "De ce ne aleg antreprenorii" : "Why Business Owners Choose Us"}
-            </p>
-            <ul className="mt-4 space-y-3 text-base leading-8 text-slate-100">
-              <li>
-                -{" "}
-                {isRo
-                  ? "Primești un singur partener pentru infrastructură, securitate și software."
-                  : "You get one partner for infrastructure, security, and software."}
-              </li>
-              <li>
-                -{" "}
-                {isRo
-                  ? "Reducem riscurile și costurile generate de întreruperi sau incidente."
-                  : "We reduce risk and costs caused by downtime or incidents."}
-              </li>
-              <li>
-                -{" "}
-                {isRo
-                  ? "Comunicăm clar, pe înțelesul managementului, nu doar tehnic."
-                  : "We communicate clearly for management, not only technical teams."}
-              </li>
-              <li>
-                -{" "}
-                {isRo
-                  ? "Ne concentrăm pe rezultate măsurabile: stabilitate, timp economisit și creștere."
-                  : "We focus on measurable outcomes: stability, time saved, and growth."}
-              </li>
+          <aside className="card flex flex-col md:!p-7">
+            <div className="section-h">
+              <span className="ico ok !bg-ok-soft !text-ok">
+                <Icon name="shieldCheck" />
+              </span>
+              <h2 className="text-ink">
+                {isRo ? "De ce ne aleg antreprenorii" : "Why Business Owners Choose Us"}
+              </h2>
+            </div>
+            <ul>
+              {reasons.map((reason) => (
+                <li
+                  key={reason}
+                  className="flex items-start gap-2.5 border-t border-line py-3 text-[15px] text-ink first:border-t-0 first:pt-0"
+                >
+                  <Icon name="checkCircle" className="mt-0.5 h-[18px] w-[18px] text-ok" />
+                  {reason}
+                </li>
+              ))}
             </ul>
-            <Link
-              href="/contact"
-              className="mt-5 inline-block rounded-md border border-emerald-300/40 bg-emerald-400/15 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-400/25"
-            >
-              {isRo ? "Programează o discuție" : "Book a Discovery Call"}
-            </Link>
+            <div className="mt-auto pt-5">
+              <Link href="/contact" className="btn primary">
+                <Icon name="calendar" className="h-[18px] w-[18px]" />
+                {isRo ? "Programează o discuție" : "Book a Discovery Call"}
+              </Link>
+            </div>
           </aside>
         </section>
       </main>
-    </div>
+    </>
   );
 }

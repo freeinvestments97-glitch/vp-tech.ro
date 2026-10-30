@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import Icon from "@/components/icon";
+import { HeroArt } from "@/components/page-hero";
 import type { Locale } from "@/lib/locale";
+import { ONBOARDING_URL } from "@/lib/links";
 
 type SpotlightItem = {
   label: string;
@@ -137,74 +140,75 @@ export default function HeroSpotlight({ locale }: HeroSpotlightProps) {
   );
 
   return (
-    <section className="rounded-2xl border border-cyan-500/30 bg-slate-950/85 p-6 shadow-2xl shadow-cyan-900/15 backdrop-blur md:p-10">
-      <div className="mb-4 inline-flex max-w-full items-center rounded-full border border-cyan-400/35 bg-cyan-950/40 px-3 py-1 text-xs font-semibold text-cyan-300">
-        <span className="truncate">{activeItem.label}</span>
+    <header className="hero-band pt-10 pb-24 md:pt-14">
+      <HeroArt />
+      <div className="shell relative grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="min-w-0">
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full bg-blue-400/16 px-3 py-1.5 text-[13px] font-bold text-blue-200">
+            <span className="pulse-dot flex-none" />
+            <span className="truncate">{activeItem.label}</span>
+          </span>
+
+          <h1 className="mt-4 max-w-4xl text-[30px] font-extrabold leading-[1.1] text-white md:text-[44px]">
+            {activeItem.title}
+          </h1>
+
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-300 md:text-[17px]">
+            {activeItem.summary}
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-2.5">
+            <Link href="/services" className="btn primary lg">
+              {isRo ? "Explorează servicii" : "Explore Services"}
+              <Icon name="arrowRight" className="h-[18px] w-[18px]" />
+            </Link>
+            <Link href={ONBOARDING_URL} className="btn on-dark lg">
+              {isRo ? "Pornește fluxul de inițiere" : "Start Guided Flow"}
+            </Link>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {spotlightItems.map((item, index) => (
+              <button
+                key={item.title}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                aria-pressed={index === activeIndex}
+                className={`cursor-pointer rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                  index === activeIndex
+                    ? "border-white bg-white text-navy"
+                    : "border-white/16 bg-white/8 text-slate-200 hover:bg-white/16"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <aside className="min-w-0 rounded-[18px] border border-white/14 bg-white/7 p-5 backdrop-blur">
+          <p className="text-[12px] font-bold tracking-[0.16em] text-accent-2 uppercase">
+            {isRo ? "Pe scurt" : "At a glance"}
+          </p>
+          <ul className="mt-3">
+            {activeItem.metrics.map((metric) => (
+              <li
+                key={metric.name}
+                className="flex items-center justify-between gap-4 border-t border-white/10 py-3 first:border-t-0"
+              >
+                <span className="text-sm text-slate-300">{metric.name}</span>
+                <span className="text-right font-semibold text-white">{metric.value}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-accent to-accent-2"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </aside>
       </div>
-
-      <h1 className="max-w-5xl text-2xl font-bold leading-tight tracking-tight text-cyan-50 md:text-5xl">
-        {activeItem.title}
-      </h1>
-
-      <p className="mt-4 max-w-3xl text-base leading-8 text-slate-100">
-        {activeItem.summary}
-      </p>
-
-      <div className="mt-6 flex flex-wrap gap-3">
-        <Link
-          href="/services"
-          className="rounded-md border border-cyan-300/40 bg-cyan-500/15 px-4 py-2.5 text-base font-semibold text-cyan-100 transition hover:bg-cyan-400/25"
-        >
-          {isRo ? "Explorează servicii" : "Explore Services"}
-        </Link>
-        <Link
-          href="/get-started"
-          className="rounded-md border border-slate-400/35 bg-slate-800/70 px-4 py-2.5 text-base font-semibold text-slate-100 transition hover:bg-slate-700"
-        >
-          {isRo ? "Pornește fluxul de inițiere" : "Start Guided Flow"}
-        </Link>
-      </div>
-
-      <div className="mt-6 h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-        <div
-          className="h-full rounded-full bg-cyan-400 transition-[width] duration-100"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      <div className="mt-6 grid gap-3 md:grid-cols-3">
-        {activeItem.metrics.map((metric) => (
-          <article
-            key={metric.name}
-            className="rounded-lg border border-slate-700/70 bg-slate-900/85 p-4"
-          >
-            <p className="text-xs uppercase tracking-[0.14em] text-cyan-300/85">
-              {metric.name}
-            </p>
-            <p className="mt-1 text-lg font-semibold text-slate-100">
-              {metric.value}
-            </p>
-          </article>
-        ))}
-      </div>
-
-      <div className="mt-5 flex flex-wrap gap-2">
-        {spotlightItems.map((item, index) => (
-          <button
-            key={item.title}
-            type="button"
-            onClick={() => setActiveIndex(index)}
-            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
-              index === activeIndex
-                ? "border border-cyan-300/55 bg-cyan-500/20 text-cyan-100"
-                : "border border-slate-600/70 bg-slate-900/70 text-slate-300 hover:border-cyan-500/40"
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-    </section>
+    </header>
   );
 }
-

@@ -1,52 +1,316 @@
 @import "tailwindcss";
 
+/* Design tokens shared with app.vp-tech.ro (field kit + client portal). */
 :root {
-  --background: #020617;
-  --foreground: #f1f5f9;
+  --bg: #f3f5f9;
+  --surface: #ffffff;
+  --surface-2: #f5f7fb;
+  --ink: #0f172a;
+  --ink-2: #475569;
+  --ink-3: #8492a6;
+  --line: #e2e8f0;
+  --line-2: #cbd5e1;
+  --navy: #0b1630;
+  --navy-2: #132448;
+  --accent: #2563eb;
+  --accent-hover: #1d4fd7;
+  --accent-soft: #eaf1ff;
+  --accent-ink: #1d4ed8;
+  --accent-2: #60a5fa;
+  --on-accent: #fff;
+  --ok: #16a34a;
+  --ok-soft: #e8f7ee;
+  --warn: #d97706;
+  --warn-soft: #fef4e4;
+  --bad: #dc2626;
+  --bad-soft: #fdecec;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --focus: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  --hero: radial-gradient(1000px 500px at 85% -10%, #1e40af 0%, #0b1630 60%);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a1020;
+    --surface: #111a2d;
+    --surface-2: #18223a;
+    --ink: #e7ecf5;
+    --ink-2: #a9b4c8;
+    --ink-3: #7887a2;
+    --line: #1f2a42;
+    --line-2: #2c3a56;
+    --accent: #5b8cff;
+    --accent-hover: #7aa2ff;
+    --accent-soft: #17244a;
+    --accent-ink: #9dbaff;
+    --accent-2: #93c5fd;
+    --on-accent: #0b1020;
+    --ok: #4ade80;
+    --ok-soft: #12291d;
+    --warn: #fbbf24;
+    --warn-soft: #2d2412;
+    --bad: #f87171;
+    --bad-soft: #331a1f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.18);
+    --focus: 0 0 0 3px rgba(91, 140, 255, 0.35);
+    --hero: radial-gradient(1000px 500px at 85% -10%, #1a3478 0%, #08112a 60%);
+    color-scheme: dark;
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-2: var(--accent-2);
+  --color-on-accent: var(--on-accent);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --radius-card: var(--radius);
+  --shadow-card: var(--shadow);
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.command-bg {
-  background:
-    radial-gradient(circle at 20% 18%, rgba(14, 116, 144, 0.22), transparent 36%),
-    radial-gradient(circle at 82% 4%, rgba(34, 197, 94, 0.12), transparent 34%),
-    linear-gradient(180deg, #020617 0%, #020617 52%, #020817 100%);
-  background-size: 130% 130%;
-  animation: bg-drift 18s ease-in-out infinite alternate;
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
 }
 
-.command-bg::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.06;
-  background-image:
-    linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
-  background-size: 56px 56px;
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+  border-radius: 8px;
 }
 
-@keyframes bg-drift {
-  0% {
-    background-position: 0% 0%;
+@layer components {
+  /* page width + gutter, as in the app */
+  .shell {
+    width: 100%;
+    max-width: 1880px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3.2vw, 64px);
   }
-  100% {
-    background-position: 12% 8%;
+
+  /* navy hero band with dotted pattern (see <PageHero>) */
+  .hero-band {
+    position: relative;
+    overflow: hidden;
+    background: var(--hero);
+    background-color: #0b1630;
+    color: #fff;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px;
+  }
+
+  /* 38px rounded icon tile */
+  .ico {
+    width: 38px;
+    height: 38px;
+    flex: none;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .ico.ok {
+    background: var(--ok-soft);
+    color: var(--ok);
+  }
+  .ico.warn {
+    background: var(--warn-soft);
+    color: var(--warn);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .btn:hover {
+    background: var(--surface-2);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn.primary:hover {
+    background: var(--accent-hover);
+  }
+  /* translucent button for use on the navy hero / header */
+  .btn.on-dark {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #fff;
+  }
+  .btn.on-dark:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+  .btn.lg {
+    min-height: 50px;
+    font-size: 16px;
+    padding-inline: 20px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    background: var(--surface-2);
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .chip.ok {
+    background: var(--ok-soft);
+    color: var(--ok);
+  }
+  .chip.warn {
+    background: var(--warn-soft);
+    color: var(--warn);
+  }
+  .chip.acc {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .chip.bad {
+    background: var(--bad-soft);
+    color: var(--bad);
+  }
+
+  /* form controls */
+  .field {
+    display: block;
+  }
+  .field > span {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+  .input {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    padding: 12px 13px;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--ink);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--focus);
+  }
+  textarea.input {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  /* progress track */
+  .track {
+    height: 6px;
+    background: var(--line);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .track > span {
+    display: block;
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+
+  /* section heading: icon tile + title + optional sub on the right */
+  .section-h {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .section-h .ico {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .section-h h2 {
+    font-size: 20px;
+    font-weight: 700;
   }
 }
 
@@ -80,95 +344,31 @@ body {
   animation: intel-panel-in 220ms ease-out;
 }
 
-@keyframes vector-orbit {
+@keyframes pulse-ring {
   0% {
-    transform: rotate(0deg);
+    box-shadow: 0 0 0 0 rgba(191, 219, 254, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(191, 219, 254, 0);
   }
   100% {
-    transform: rotate(360deg);
+    box-shadow: 0 0 0 0 rgba(191, 219, 254, 0);
   }
 }
 
-@keyframes vector-scan {
-  0%,
-  100% {
-    opacity: 0.16;
-    transform: translateY(-14px);
-  }
-  50% {
-    opacity: 0.52;
-    transform: translateY(14px);
-  }
-}
-
-@keyframes telemetry-pulse {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.85;
-  }
-}
-
-@keyframes telemetry-rise {
-  0% {
-    transform: scaleY(0.35);
-    opacity: 0.4;
-  }
-  100% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
-
-.vector-orbit {
-  transform-origin: 120px 60px;
-  animation: vector-orbit 9s linear infinite;
-}
-
-.vector-scan {
-  animation: vector-scan 2.8s ease-in-out infinite;
-}
-
-.telemetry-pulse {
-  animation: telemetry-pulse 1.8s ease-in-out infinite;
-}
-
-.telemetry-bar {
-  transform-origin: bottom;
-  animation: telemetry-rise 650ms ease-out both;
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse-ring 2s infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .command-bg {
-    animation: none;
-  }
-
-  .page-fade-in {
-    animation: none;
-  }
-
-  .intel-panel-enter {
-    animation: none;
-  }
-
-  .vector-orbit,
-  .vector-scan,
-  .telemetry-pulse,
-  .telemetry-bar {
-    animation: none;
-  }
-}
-
-@media (max-width: 640px) {
-  body {
-    font-size: 16px;
-    overflow-x: hidden;
-  }
-
-  .command-bg::before {
-    opacity: 0.04;
-    background-size: 64px 64px;
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }

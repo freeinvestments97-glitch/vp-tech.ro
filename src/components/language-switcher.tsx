@@ -16,30 +16,20 @@ export default function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-slate-600/70 bg-slate-900/70 p-1 text-xs">
-      <button
-        type="button"
-        onClick={() => setLanguage("en")}
-        className={`rounded-full px-2.5 py-1 font-semibold transition ${
-          locale === "en"
-            ? "bg-cyan-500/25 text-cyan-100"
-            : "text-slate-300 hover:text-slate-100"
-        }`}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        onClick={() => setLanguage("ro")}
-        className={`rounded-full px-2.5 py-1 font-semibold transition ${
-          locale === "ro"
-            ? "bg-cyan-500/25 text-cyan-100"
-            : "text-slate-300 hover:text-slate-100"
-        }`}
-      >
-        RO
-      </button>
+    <div className="inline-flex gap-0.5 rounded-[10px] border border-white/16 bg-white/8 p-[3px]">
+      {(["en", "ro"] as const).map((code) => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => setLanguage(code)}
+          aria-pressed={locale === code}
+          className={`cursor-pointer rounded-lg px-2.5 py-1.5 text-[13px] font-semibold transition ${
+            locale === code ? "bg-white text-navy" : "text-slate-200/75 hover:text-white"
+          }`}
+        >
+          {code.toUpperCase()}
+        </button>
+      ))}
     </div>
   );
 }
-
