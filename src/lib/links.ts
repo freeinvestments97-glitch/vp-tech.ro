@@ -4,6 +4,6 @@ export const ONBOARDING_URL = "https://app.vp-tech.ro/onboarding";
 
 // Google Calendar appointment schedule (each booking gets a Google Meet link).
 // Meet buttons are hidden while this is empty.
-export const MEET_BOOKING_URL = "";
+export const MEET_BOOKING_URL = "https://calendar.app.google/2PPJ4Uwt6LwAmmzU9";
 // Public address for client requests; shown on /contact when set.
 export const CONTACT_EMAIL = "";

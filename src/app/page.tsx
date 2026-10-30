@@ -4,6 +4,7 @@ import { getServiceModules } from "@/data/services";
 import HeroSpotlight from "@/components/hero-spotlight";
 import Icon from "@/components/icon";
 import LiveMetrics from "@/components/live-metrics";
+import { MEET_BOOKING_URL } from "@/lib/links";
 import { getLocale } from "@/lib/locale";
 
 export default async function Home() {
@@ -197,10 +198,10 @@ export default async function Home() {
               ))}
             </ul>
             <div className="mt-auto pt-5">
-              <Link href="/contact" className="btn primary">
+              <a href={MEET_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn primary">
                 <Icon name="calendar" className="h-[18px] w-[18px]" />
                 {isRo ? "Programează o discuție" : "Book a Discovery Call"}
-              </Link>
+              </a>
             </div>
           </aside>
         </section>

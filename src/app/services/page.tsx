@@ -191,21 +191,15 @@ export default async function ServicesPage() {
                   : "A short, no-commitment conversation to understand your situation and propose the right next steps."}
               </p>
               <div className="mt-auto flex flex-wrap gap-2.5 pt-6">
-                <Link href="/contact" className="btn primary lg">
+                <a
+                  href={MEET_BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn primary lg"
+                >
                   <Icon name="calendar" className="h-[18px] w-[18px]" />
-                  {isRo ? "Programează o discuție" : "Book a discovery call"}
-                </Link>
-                {MEET_BOOKING_URL ? (
-                  <a
-                    href={MEET_BOOKING_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn on-dark lg"
-                  >
-                    <Icon name="calendar" className="h-[18px] w-[18px]" />
-                    Google Meet
-                  </a>
-                ) : null}
+                  {isRo ? "Programează pe Google Meet" : "Book a Google Meet"}
+                </a>
                 <Link href={CLIENT_PORTAL_URL} className="btn on-dark lg">
                   <Icon name="user" className="h-[18px] w-[18px]" />
                   {isRo ? "Sunt deja client" : "I’m already a client"}
