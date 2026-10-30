@@ -40,6 +40,7 @@ const clients: Client[] = [
     name: "DB Schenker",
     slug: "db-schenker",
     logo: { src: "/clients/dbschenker.svg", dark: "/clients/dbschenker-white.svg", width: 370, height: 65 },
+    work: { en: "Starlink installations & network configuration", ro: "Instalări Starlink și configurare rețea", icon: "network" },
   },
   {
     name: "BlueWireless",
