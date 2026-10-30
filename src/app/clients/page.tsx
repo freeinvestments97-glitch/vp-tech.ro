@@ -3,7 +3,7 @@ import Link from "next/link";
 import Icon, { type IconName } from "@/components/icon";
 import PageHero, { HeroArt } from "@/components/page-hero";
 import { getLocale } from "@/lib/locale";
-import { CLIENT_PORTAL_URL, ONBOARDING_URL } from "@/lib/links";
+import { CLIENT_PORTAL_URL, MEET_BOOKING_URL, ONBOARDING_URL } from "@/lib/links";
 
 // A selection of clients, not the full portfolio. Public info only: name, logo
 // and the general type of work (matching the labels used in app.vp-tech.ro).
@@ -144,10 +144,10 @@ export default async function ClientsPage() {
                 : "Book a 60-minute discovery session. We map your goals, identify priorities, and deliver a concrete plan — no commitment required."}
             </p>
             <div className="mt-5 flex flex-wrap gap-2.5">
-              <Link href="/contact" className="btn primary">
+              <a href={MEET_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn primary">
                 <Icon name="calendar" className="h-4 w-4" />
                 {isRo ? "Programeaza o discutie" : "Book a Discovery Call"}
-              </Link>
+              </a>
               <Link
                 href={
                   isRo

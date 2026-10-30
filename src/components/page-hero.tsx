@@ -75,7 +75,7 @@ export default function PageHero({
                 {description}
               </div>
             ) : null}
-            {actions ? <div className="mt-6 flex flex-wrap gap-2.5">{actions}</div> : null}
+            {actions ? <div className="mt-6 flex flex-wrap gap-2.5 *:whitespace-nowrap max-sm:*:grow">{actions}</div> : null}
           </div>
           {aside ? <div className="min-w-0">{aside}</div> : null}
         </div>

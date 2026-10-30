@@ -107,7 +107,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <li key={phase.label} className="relative pt-[34px]">
                 <span
                   aria-hidden="true"
-                  className={`absolute top-[13px] left-0 h-[3px] rounded-[3px] bg-line ${
+                  className={`absolute top-[13px] left-0 h-[3px] rounded-[3px] bg-line max-md:hidden ${
                     index === phases.length - 1 ? "right-0" : "right-0 md:-right-[18px]"
                   }`}
                 />

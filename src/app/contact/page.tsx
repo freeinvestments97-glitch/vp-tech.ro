@@ -201,27 +201,27 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 </span>
                 <h2 className="!text-base">{isRo ? "Întrebări frecvente" : "Frequently asked"}</h2>
               </div>
-              <details className="group border-t border-line py-3">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <details className="group border-t border-line">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-3 text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
                   {isRo
                     ? "Oferiți livrare atât remote, cât și on-site?"
                     : "Do you support both remote and on-site delivery?"}
                   <Icon name="chevronRight" className="h-4 w-4 text-ink-3 transition group-open:rotate-90" />
                 </summary>
-                <p className="mt-2 text-sm leading-relaxed text-ink-2">
+                <p className="pb-3 text-sm leading-relaxed text-ink-2">
                   {isRo
                     ? "Da. Putem lucra la distanță, la sediu sau într-un model hibrid, în funcție de proiect."
                     : "Yes. We can work remotely, on-site, or in a hybrid model, depending on project needs."}
                 </p>
               </details>
-              <details className="group border-t border-line pt-3">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <details className="group border-t border-line">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-3 text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
                   {isRo
                     ? "Puteți colabora cu echipele IT interne?"
                     : "Can you work with existing internal IT teams?"}
                   <Icon name="chevronRight" className="h-4 w-4 text-ink-3 transition group-open:rotate-90" />
                 </summary>
-                <p className="mt-2 text-sm leading-relaxed text-ink-2">
+                <p className="pb-3 text-sm leading-relaxed text-ink-2">
                   {isRo
                     ? "Absolut. Colaborăm frecvent cu echipe interne pentru arhitectură, implementare și optimizare operațională."
                     : "Absolutely. We frequently collaborate with in-house teams for architecture guidance, implementation support, and operational optimization."}

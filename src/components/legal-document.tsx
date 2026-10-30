@@ -115,13 +115,13 @@ export default function LegalDocumentView({ document, locale }: LegalDocumentPro
                     key={section.id}
                     id={section.id}
                     open={expandAll || query.length > 0}
-                    className="group scroll-mt-24 border-t border-line py-4 first:border-t-0"
+                    className="group scroll-mt-24 border-t border-line first:border-t-0"
                   >
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+                    <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-4 [&::-webkit-details-marker]:hidden">
                       <h2 className="text-[17px] font-bold text-ink">{section.title}</h2>
                       <Icon name="chevronRight" className="h-[18px] w-[18px] text-ink-3 transition group-open:rotate-90" />
                     </summary>
-                    <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-ink-2">
+                    <div className="space-y-3 pb-4 text-[15px] leading-relaxed text-ink-2">
                       {section.paragraphs.map((paragraph) => (
                         <p key={paragraph}>{paragraph}</p>
                       ))}

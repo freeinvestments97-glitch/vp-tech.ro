@@ -157,7 +157,7 @@ export default function HeroSpotlight({ locale }: HeroSpotlightProps) {
             {activeItem.summary}
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-2.5">
+          <div className="mt-6 flex flex-wrap gap-2.5 *:whitespace-nowrap max-sm:*:grow">
             <Link href="/services" className="btn primary lg">
               {isRo ? "Explorează servicii" : "Explore Services"}
               <Icon name="arrowRight" className="h-[18px] w-[18px]" />
@@ -174,7 +174,7 @@ export default function HeroSpotlight({ locale }: HeroSpotlightProps) {
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 aria-pressed={index === activeIndex}
-                className={`cursor-pointer rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                className={`min-h-10 cursor-pointer rounded-full border px-3.5 py-2 text-xs font-semibold transition ${
                   index === activeIndex
                     ? "border-white bg-white text-navy"
                     : "border-white/16 bg-white/8 text-slate-200 hover:bg-white/16"

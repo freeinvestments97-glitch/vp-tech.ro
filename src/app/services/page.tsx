@@ -168,12 +168,12 @@ export default async function ServicesPage() {
               <h2>{isRo ? "Întrebări frecvente" : "Frequently asked"}</h2>
             </div>
             {faqs.map((faq) => (
-              <details key={faq.q} className="group border-t border-line py-3 first-of-type:border-t-0">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <details key={faq.q} className="group border-t border-line first-of-type:border-t-0">
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 py-3 font-semibold text-ink [&::-webkit-details-marker]:hidden">
                   {faq.q}
                   <Icon name="chevronRight" className="h-4 w-4 text-ink-3 transition group-open:rotate-90" />
                 </summary>
-                <p className="mt-2 text-sm leading-relaxed text-ink-2">{faq.a}</p>
+                <p className="pb-3 text-sm leading-relaxed text-ink-2">{faq.a}</p>
               </details>
             ))}
           </div>

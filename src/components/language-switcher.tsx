@@ -7,11 +7,15 @@ type LanguageSwitcherProps = {
   locale: Locale;
 };
 
+function saveLanguage(nextLocale: Locale) {
+  document.cookie = `site_lang=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+}
+
 export default function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   const router = useRouter();
 
   const setLanguage = (nextLocale: Locale) => {
-    document.cookie = `site_lang=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+    saveLanguage(nextLocale);
     router.refresh();
   };
 

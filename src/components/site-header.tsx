@@ -34,8 +34,10 @@ export default function SiteHeader({ locale }: SiteHeaderProps) {
             <Icon name="layers" className="h-[17px] w-[17px]" />
           </span>
           <span className="min-w-0 leading-tight">
-            <span className="block text-[12px] font-bold tracking-[0.24em] text-indigo-200">
-              VP TECHNOLOGIES
+            {/* short name on narrow phones, like the app's top bar */}
+            <span className="block text-[12px] font-bold tracking-[0.24em] whitespace-nowrap text-indigo-200">
+              <span className="min-[430px]:hidden">VP TECH</span>
+              <span className="hidden min-[430px]:inline">VP TECHNOLOGIES</span>
             </span>
             <span className="block truncate text-[12.5px] text-slate-300">vp-tech.ro</span>
           </span>
@@ -73,14 +75,14 @@ export default function SiteHeader({ locale }: SiteHeaderProps) {
 
       {/* Mobile / tablet: app-style underline tabs */}
       <nav
-        className="shell flex gap-1 overflow-x-auto [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden"
+        className="shell flex overflow-x-auto [scrollbar-width:none] max-sm:!px-1.5 max-[374px]:[mask-image:linear-gradient(to_right,#000_85%,transparent)] lg:hidden [&::-webkit-scrollbar]:hidden"
         aria-label={isRo ? "Principal" : "Main"}
       >
         {tabs.map((tab) => (
           <Link
             key={tab.href}
             href={tab.href}
-            className={`flex-none border-b-[3px] px-3 pt-2.5 pb-3 text-[14.5px] font-semibold transition ${
+            className={`flex-none border-b-[3px] px-2 pt-2.5 pb-3 text-[14px] font-semibold transition sm:px-3 sm:text-[14.5px] ${
               isActive(tab.href)
                 ? "border-accent-2 text-white"
                 : "border-transparent text-slate-200/70 hover:text-white"

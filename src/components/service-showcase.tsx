@@ -89,14 +89,14 @@ export default function ServiceShowcase({ service, locale }: ServiceShowcaseProp
           <h3 className="text-[16px] font-bold text-ink">
             {tabs.find((item) => item.key === tab)?.label}
           </h3>
-          <div className="inline-flex max-w-full gap-0.5 overflow-x-auto rounded-[10px] bg-surface-2 p-[3px]">
+          <div className="flex w-full gap-0.5 rounded-[10px] bg-surface-2 p-[3px] max-[359px]:flex-col sm:inline-flex sm:w-auto">
             {tabs.map((item) => (
               <button
                 key={item.key}
                 type="button"
                 onClick={() => setTab(item.key)}
                 aria-pressed={tab === item.key}
-                className={`flex-none cursor-pointer rounded-lg px-3 py-1.5 text-[13.5px] font-semibold transition ${
+                className={`min-h-9 flex-1 cursor-pointer rounded-lg px-2 py-1.5 text-[13px] leading-tight font-semibold transition sm:flex-none sm:px-3 sm:text-[13.5px] ${
                   tab === item.key
                     ? "bg-surface text-ink shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
                     : "text-ink-2 hover:text-ink"

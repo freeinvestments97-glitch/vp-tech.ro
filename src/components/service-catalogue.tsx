@@ -61,7 +61,7 @@ export default function ServiceCatalogue({ areas, locale }: ServiceCatalogueProp
       </div>
 
       {/* sticky bar: search + jump to an area (sits under the site header) */}
-      <div className="sticky top-[108px] z-20 -mx-1 mb-6 lg:top-[68px]">
+      <div className="mb-6 lg:sticky lg:top-[68px] lg:z-20">
         <div className="card flex flex-col gap-3 !p-3 lg:flex-row lg:items-center">
           <label className="relative block min-w-0 lg:w-[380px] lg:flex-none">
             <Icon
@@ -80,7 +80,7 @@ export default function ServiceCatalogue({ areas, locale }: ServiceCatalogueProp
             />
           </label>
           <nav
-            className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex gap-2 overflow-x-auto [scrollbar-width:none] max-lg:pr-8 max-lg:[mask-image:linear-gradient(to_right,#000_85%,transparent)] [&::-webkit-scrollbar]:hidden"
             aria-label={isRo ? "Arii de servicii" : "Service areas"}
           >
             {areas.map((area) => {
@@ -130,7 +130,7 @@ export default function ServiceCatalogue({ areas, locale }: ServiceCatalogueProp
 
       <div className="flex flex-col gap-10">
         {visible.map((area) => (
-          <section key={area.id} id={area.id} className="scroll-mt-[210px] lg:scroll-mt-[170px]">
+          <section key={area.id} id={area.id} className="scroll-mt-[130px] lg:scroll-mt-[170px]">
             <div className="section-h !items-start">
               <span className="ico !mt-0.5">
                 <Icon name={area.icon} className="h-[18px] w-[18px]" />

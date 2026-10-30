@@ -59,14 +59,14 @@ export default async function RootLayout({
                   : "VAT/Tax ID 51453103 · Trade Register J2025018400006 · EUID ROONRC.J2025018400006"}
               </p>
             </div>
-            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <nav className="flex flex-wrap items-center gap-x-4">
               {footerLinks.map((link) => (
-                <Link key={link.href} className="transition hover:text-accent" href={link.href}>
+                <Link key={link.href} className="inline-flex min-h-10 items-center transition hover:text-accent" href={link.href}>
                   {link.label}
                 </Link>
               ))}
               <Link
-                className="font-semibold text-accent-ink transition hover:text-accent"
+                className="inline-flex min-h-10 items-center font-semibold text-accent-ink transition hover:text-accent"
                 href={
                   isRo
                     ? "/docs/VP-TECHNOLOGIES-Prezentare-Client.pdf"

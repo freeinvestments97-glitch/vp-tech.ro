@@ -150,7 +150,7 @@ export default async function Home() {
                 <li key={phase.title} className="relative pt-[34px]">
                   <span
                     aria-hidden="true"
-                    className={`absolute top-[13px] left-0 h-[3px] rounded-[3px] ${
+                    className={`absolute top-[13px] left-0 h-[3px] rounded-[3px] max-md:hidden ${
                       index === phases.length - 1 ? "right-0" : "right-0 md:-right-[18px]"
                     } ${index === 0 ? "bg-ok" : index === 1 ? "bg-gradient-to-r from-accent to-line" : "bg-line"}`}
                   />
