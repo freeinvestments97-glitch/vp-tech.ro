@@ -10,6 +10,43 @@ export const TOPIC_META: Record<BlogTopic, { icon: IconName; en: string; ro: str
   ai: { icon: "sparkles", en: "AI & software", ro: "AI & software" },
 };
 
+// Icon for a section, guessed from words in its heading (English and Romanian).
+const SECTION_ICONS: Array<[RegExp, IconName]> = [
+  [/secur|vulnerab|patch|exploit|breach|ransom|attack|malware|backdoor|phish|flaw|threat|cve|zero-day|compromi|supply chain|atac|bre[sș]|amenin|actualiz/i, "shieldCheck"],
+  [/outage|cloud|microsoft|exchange|azure|aws|downtime|disrupt|întrerup|avari/i, "cloud"],
+  [/network|wi-?fi|starlink|connect|isp|satellite|router|re[țt]ea|conectiv/i, "network"],
+  [/\bai\b|agent|automat|model|gpt|gemini|inteligen/i, "sparkles"],
+  [/pay|pos|card|terminal|pl[ăa]ț|retail/i, "card"],
+  [/software|crm|erp|e-?commerce|store|wordpress|magazin/i, "code"],
+];
+const FALLBACK_ICONS: IconName[] = ["activity", "layers", "target", "globe", "trending"];
+
+export function sectionIcon(heading: string, index: number): IconName {
+  return SECTION_ICONS.find(([re]) => re.test(heading))?.[1] ?? FALLBACK_ICONS[index % FALLBACK_ICONS.length];
+}
+
+/** Hostname for a source without a publisher label. */
+export function sourceHost(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+}
+
+/** Second line of a source card: the publisher, or the page path when the title already is the domain. */
+export function sourceDetail(source: { title: string; url: string; publisher?: string }) {
+  const host = sourceHost(source.url);
+  const label = source.publisher || host;
+  if (label && label.toLowerCase() !== source.title.toLowerCase()) return label;
+  try {
+    const path = decodeURIComponent(new URL(source.url).pathname).replace(/\/+$/, "");
+    return path && path !== "/" ? path.replace(/[-_]+/g, " ").replace(/^\//, "") : host;
+  } catch {
+    return host;
+  }
+}
+
 const TZ = "Europe/Bucharest";
 
 export function formatDate(isoDate: string, lang: BlogLang) {
