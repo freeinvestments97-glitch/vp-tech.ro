@@ -1,7 +1,10 @@
 import Link from "next/link";
+import ContactForm from "@/components/contact-form";
 import Icon from "@/components/icon";
 import PageHero from "@/components/page-hero";
+import { getServiceAreas } from "@/data/service-areas";
 import { getServiceModules } from "@/data/services";
+import { CONTACT_EMAIL, MEET_BOOKING_URL } from "@/lib/links";
 import { getLocale } from "@/lib/locale";
 
 type ContactPageProps = {
@@ -21,6 +24,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
     typeof params.service === "string"
       ? getServiceModules(locale).find((item) => item.slug === params.service)
       : undefined;
+  const areas = getServiceAreas(locale);
+  const areaTitles = areas.map((area) => area.title);
+  const requestedArea = requestedService
+    ? areas.find((area) => area.slugs.includes(requestedService.slug))?.title
+    : undefined;
 
   const companyDetails = [
     { label: isRo ? "Denumire" : "Company Name", value: "VP INVESTMENTS SRL", mono: false },
@@ -114,89 +122,57 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               </div>
             ) : null}
 
-              <form className="card grid gap-x-4 gap-y-3.5 md:grid-cols-2">
-                <label className="field">
-                  <span>{isRo ? "Nume complet" : "Full Name"}</span>
-                  <input
-                    type="text"
-                    className="input"
-                    placeholder={isRo ? "Numele complet" : "Your full name"}
-                  />
-                </label>
-                <label className="field">
-                  <span>{isRo ? "Email companie" : "Business Email"}</span>
-                  <input
-                    type="email"
-                    className="input"
-                    placeholder={isRo ? "nume@companie.com" : "name@company.com"}
-                  />
-                </label>
-                <label className="field">
-                  <span>{isRo ? "Număr de telefon" : "Phone Number"}</span>
-                  <input
-                    type="tel"
-                    className="input"
-                    placeholder="+40..."
-                  />
-                </label>
-                <label className="field">
-                  <span>{isRo ? "Categoria serviciului" : "Service Category"}</span>
-                  <select className="input">
-                    <option>{isRo ? "Administrare servere" : "Server Administration"}</option>
-                    <option>{isRo ? "Rețele și securitate" : "Network & Security"}</option>
-                    <option>{isRo ? "Cloud și Microsoft 365" : "Cloud & Microsoft 365"}</option>
-                    <option>{isRo ? "Web și E-Commerce" : "Web & E-Commerce"}</option>
-                    <option>{isRo ? "Software custom și AI" : "Custom Software & AI"}</option>
-                    <option>{isRo ? "Suport tehnic" : "Technical Support"}</option>
-                  </select>
-                </label>
-                <label className="field">
-                  <span>{isRo ? "Termen proiect" : "Project Timeline"}</span>
-                  <select className="input">
-                    <option>{isRo ? "Imediat" : "Immediately"}</option>
-                    <option>{isRo ? "În 2-4 săptămâni" : "Within 2-4 weeks"}</option>
-                    <option>{isRo ? "În 1-3 luni" : "Within 1-3 months"}</option>
-                    <option>{isRo ? "Stadiu de planificare" : "Planning stage"}</option>
-                  </select>
-                </label>
-                <label className="field">
-                  <span>{isRo ? "Metodă preferată de contact" : "Preferred Contact Method"}</span>
-                  <select className="input">
-                    <option>{isRo ? "Email" : "Email"}</option>
-                    <option>{isRo ? "Apel telefonic" : "Phone Call"}</option>
-                    <option>{isRo ? "Întâlnire video" : "Video Meeting"}</option>
-                  </select>
-                </label>
-                <label className="field md:col-span-2">
-                  <span>{isRo ? "Detalii proiect" : "Project Details"}</span>
-                  <textarea
-                    rows={5}
-                    className="input"
-                    placeholder={
-                      isRo
-                      ? "Descrie obiectivele, infrastructura actuală și termenul dorit."
-                        : "Tell us about your goals, current setup, and timeline."
-                    }
-                  />
-                </label>
-                <div className="mt-1 border-t border-line pt-4 md:col-span-2 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                  <p className="text-[13px] text-ink-3">
-                    {isRo
-                      ? "Prin trimitere, ești de acord cu politicile legale din footer."
-                      : "By submitting, you agree to our legal policies in the footer."}
-                  </p>
-                  <button
-                    type="button"
-                    className="btn primary lg"
-                  >
-                    <Icon name="mail" className="h-[18px] w-[18px]" />
-                    {isRo ? "Trimite solicitarea" : "Send Request"}
-                  </button>
-                </div>
-              </form>
+            <ContactForm
+              locale={locale}
+              areas={areaTitles}
+              requested={
+                requestedService
+                  ? { title: requestedService.title, area: requestedArea ?? "" }
+                  : undefined
+              }
+              bookingUrl={MEET_BOOKING_URL}
+            />
           </div>
 
           <aside className="min-w-0 space-y-[18px]">
+            {MEET_BOOKING_URL || CONTACT_EMAIL ? (
+              <div className="card">
+                <div className="section-h !mb-2">
+                  <span className="ico">
+                    <Icon name="calendar" className="h-[18px] w-[18px]" />
+                  </span>
+                  <h2 className="!text-base">{isRo ? "Vorbește direct cu noi" : "Talk to us directly"}</h2>
+                </div>
+                {MEET_BOOKING_URL ? (
+                  <>
+                    <p className="text-sm leading-relaxed text-ink-2">
+                      {isRo
+                        ? "Alege o oră liberă și primești automat un link Google Meet."
+                        : "Pick a free slot and you’ll get a Google Meet link automatically."}
+                    </p>
+                    <a
+                      href={MEET_BOOKING_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn primary mt-3 w-full"
+                    >
+                      <Icon name="calendar" className="h-4 w-4" />
+                      {isRo ? "Programează pe Google Meet" : "Book a Google Meet"}
+                    </a>
+                  </>
+                ) : null}
+                {CONTACT_EMAIL ? (
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="mt-3 flex items-center gap-2 border-t border-line pt-3 text-sm font-semibold text-accent-ink hover:text-accent"
+                  >
+                    <Icon name="mail" className="h-4 w-4" />
+                    {CONTACT_EMAIL}
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
+
             <div className="card">
               <div className="flex items-center gap-3">
                 <span className="ico">

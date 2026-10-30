@@ -5,7 +5,7 @@ import ServiceCatalogue, { type CatalogueArea } from "@/components/service-catal
 import { getServiceAreas } from "@/data/service-areas";
 import { getServiceModules } from "@/data/services";
 import { getLocale } from "@/lib/locale";
-import { CLIENT_PORTAL_URL } from "@/lib/links";
+import { CLIENT_PORTAL_URL, MEET_BOOKING_URL } from "@/lib/links";
 
 type Need = { icon: IconName; title: string; hint: string; slug: string };
 
@@ -195,6 +195,17 @@ export default async function ServicesPage() {
                   <Icon name="calendar" className="h-[18px] w-[18px]" />
                   {isRo ? "Programează o discuție" : "Book a discovery call"}
                 </Link>
+                {MEET_BOOKING_URL ? (
+                  <a
+                    href={MEET_BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn on-dark lg"
+                  >
+                    <Icon name="calendar" className="h-[18px] w-[18px]" />
+                    Google Meet
+                  </a>
+                ) : null}
                 <Link href={CLIENT_PORTAL_URL} className="btn on-dark lg">
                   <Icon name="user" className="h-[18px] w-[18px]" />
                   {isRo ? "Sunt deja client" : "I’m already a client"}

@@ -1,0 +1,16 @@
+# Firebase App Hosting (project vp-tech, backend vp-main). Builds and rolls out on every push to main.
+env:
+  # Contact form (src/app/contact/actions.ts): requests are emailed to CONTACT_TO
+  # through Google Workspace SMTP; app.vp-tech.ro picks them up from that mailbox.
+  - variable: CONTACT_TO
+    secret: vp-main-contact-to
+    availability:
+      - RUNTIME
+  - variable: SMTP_USER
+    secret: vp-main-smtp-user
+    availability:
+      - RUNTIME
+  - variable: SMTP_PASSWORD
+    secret: vp-main-smtp-password
+    availability:
+      - RUNTIME
