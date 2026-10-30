@@ -7,34 +7,44 @@ import { CLIENT_PORTAL_URL, MEET_BOOKING_URL, ONBOARDING_URL } from "@/lib/links
 
 // A selection of clients, not the full portfolio. Public info only: name, logo
 // and the general type of work (matching the labels used in app.vp-tech.ro).
+type Logo = { src: string; width: number; height: number };
+
 type Client = {
   name: string;
   slug: string;
-  logo?: { src: string; width: number; height: number };
-  work: { en: string; ro: string; icon: IconName };
+  /** `dark` is used when the site is in dark mode (light-on-dark artwork). */
+  logo?: Logo & { dark?: string; maxH?: string };
+  work?: { en: string; ro: string; icon: IconName };
 };
 
 const clients: Client[] = [
   {
     name: "RSG Global",
     slug: "rsg-global",
+    logo: { src: "/clients/rsg-global.svg", dark: "/clients/rsg-global-white.svg", width: 153, height: 153, maxH: "max-h-16" },
     work: { en: "Store IT installations & support", ro: "Instalări IT și suport în magazine", icon: "wrench" },
   },
   {
     name: "TheCryptoHub LLC",
     slug: "thecryptohub",
-    logo: { src: "/clients/thecryptohub.png", width: 600, height: 80 },
+    logo: { src: "/clients/thecryptohub-logo.png", width: 600, height: 80 },
     work: { en: "Software development & management", ro: "Dezvoltare și management software", icon: "code" },
   },
   {
     name: "DSV",
     slug: "dsv",
+    logo: { src: "/clients/dsv.svg", dark: "/clients/dsv-white.svg", width: 100, height: 29, maxH: "max-h-8" },
     work: { en: "Site surveys & installations", ro: "Survey-uri de site și instalări", icon: "pin" },
+  },
+  {
+    name: "DB Schenker",
+    slug: "db-schenker",
+    logo: { src: "/clients/dbschenker.svg", dark: "/clients/dbschenker-white.svg", width: 370, height: 65 },
   },
   {
     name: "BlueWireless",
     slug: "bluewireless",
-    logo: { src: "/clients/bluewireless.png", width: 264, height: 52 },
+    logo: { src: "/clients/bluewireless.png", dark: "/clients/bluewireless-white.png", width: 264, height: 52 },
     work: { en: "Network installations", ro: "Instalări de rețea", icon: "network" },
   },
 ];
@@ -85,30 +95,43 @@ export default async function ClientsPage() {
 
       <main className="shell pb-6">
         {/* Selected clients: logo wall */}
-        <section className="relative -mt-16 grid grid-cols-1 gap-3.5 sm:grid-cols-2 xl:grid-cols-4">
+        <section className="relative -mt-16 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {clients.map((client) => (
             <article key={client.slug} className="card flex flex-col !p-4">
-              {/* logos sit on a white plate so they read in light and dark mode */}
-              <div className="grid h-28 place-items-center rounded-[14px] border border-line bg-white px-6">
+              {/* page-background plate; dark mode swaps in light-on-dark logo artwork */}
+              <div className="grid h-28 place-items-center rounded-[14px] border border-line bg-bg px-6">
                 {client.logo ? (
-                  <Image
-                    src={client.logo.src}
-                    alt={client.name}
-                    width={client.logo.width}
-                    height={client.logo.height}
-                    className="h-auto max-h-11 w-auto max-w-full"
-                  />
+                  <>
+                    <Image
+                      src={client.logo.src}
+                      alt={client.name}
+                      width={client.logo.width}
+                      height={client.logo.height}
+                      className={`h-auto ${client.logo.maxH ?? "max-h-11"} w-auto max-w-full ${client.logo.dark ? "dark:hidden" : ""}`}
+                    />
+                    {client.logo.dark ? (
+                      <Image
+                        src={client.logo.dark}
+                        alt={client.name}
+                        width={client.logo.width}
+                        height={client.logo.height}
+                        className={`hidden h-auto ${client.logo.maxH ?? "max-h-11"} w-auto max-w-full dark:block`}
+                      />
+                    ) : null}
+                  </>
                 ) : (
-                  <span className="text-center text-[26px] leading-none font-extrabold tracking-[0.08em] text-[#0b1630] uppercase">
+                  <span className="text-center text-[26px] leading-none font-extrabold tracking-[0.08em] text-ink uppercase">
                     {client.name}
                   </span>
                 )}
               </div>
               <h3 className="mt-4 text-[17px] font-bold text-ink">{client.name}</h3>
-              <p className="mt-1.5 flex items-center gap-2 text-sm text-ink-2">
-                <Icon name={client.work.icon} className="h-4 w-4 text-accent" />
-                {isRo ? client.work.ro : client.work.en}
-              </p>
+              {client.work ? (
+                <p className="mt-1.5 flex items-center gap-2 text-sm text-ink-2">
+                  <Icon name={client.work.icon} className="h-4 w-4 text-accent" />
+                  {isRo ? client.work.ro : client.work.en}
+                </p>
+              ) : null}
             </article>
           ))}
         </section>
